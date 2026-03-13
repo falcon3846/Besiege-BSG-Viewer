@@ -25,6 +25,8 @@ let center = {x:0, y:-5.05*blockScale, z:0};
 
 let prevTouches = [];
 
+let showPinCam = true;
+
 let loadedFiles = 0;
 let blockNum = 90;
 
@@ -93,7 +95,15 @@ function setup(){
     btn.position(10, 50);
     btn.mousePressed(resetCamera);
 
+    let btnPinCam = createButton("pin,camera show/hide");
+    btnPinCam.position(10, 80);
+    btnPinCam.mousePressed(pinCamToggle);
+
     document.oncontextmenu = () => false;
+}
+
+function pinCamToggle(){
+    showPinCam = !showPinCam;
 }
 
 function windowResized(){
@@ -143,7 +153,7 @@ function mouseDragged(){
 }
 
 function mouseWheel(e){
-  distance += e.delta;
+  distance += e.delta*0.3;
   distance = max(50, distance);
 }
 
@@ -403,80 +413,98 @@ function loadMachine(bsg){
         }
 
     }
-    for(let pinCam of pinCams){
-        let id = pinCam.getNum("id");
+    if(showPinCam){
+        for(let pinCam of pinCams){
+            let id = pinCam.getNum("id");
 
-        let pos = pinCam.getChild("Transform").getChild("Position");
-        let rot = pinCam.getChild("Transform").getChild("Rotation");
-        let scl = pinCam.getChild("Transform").getChild("Scale");
-
-        push();
-
-        translate(pos.getNum("x"),
-                  pos.getNum("y"),
-                  pos.getNum("z"));
-
-        if(id == 58){
-            let singles = pinCam.getChild("Data").getChildren("Single");
-            let dist = 32;
-            let heit = 18;
-            let crot = 0;
-            let pitch = 0;
-            for(let s of singles){
-                if(s.getString("key") === "bmt-distance"){
-                    dist = Number(s.getContent());
-                }
-                if(s.getString("key") === "bmt-height"){
-                    heit = Number(s.getContent());
-                }
-                if(s.getString("key") === "bmt-rotation"){
-                    crot = Number(s.getContent());
-                }
-                if(s.getString("key") === "bmt-pitch"){
-                    pitch = Number(s.getContent());
-                }                
-            }
+            let pos = pinCam.getChild("Transform").getChild("Position");
+            let rot = pinCam.getChild("Transform").getChild("Rotation");
+            let scl = pinCam.getChild("Transform").getChild("Scale");
 
             push();
+
+            translate(pos.getNum("x"),
+                    pos.getNum("y"),
+                    pos.getNum("z"));
+
+            if(id == 58){
+                let singles = pinCam.getChild("Data").getChildren("Single");
+                let dist = 32;
+                let heit = 18;
+                let crot = 0;
+                let pitch = 0;
+                for(let s of singles){
+                    if(s.getString("key") === "bmt-distance"){
+                        dist = Number(s.getContent());
+                    }
+                    if(s.getString("key") === "bmt-height"){
+                        heit = Number(s.getContent());
+                    }
+                    if(s.getString("key") === "bmt-rotation"){
+                        crot = Number(s.getContent());
+                    }
+                    if(s.getString("key") === "bmt-pitch"){
+                        pitch = Number(s.getContent());
+                    }                
+                }
+
+                push();
+
+                rotateQuaternion(rot.getNum("x"),
+                                rot.getNum("y"),
+                                rot.getNum("z"),
+                                rot.getNum("w"));
+
+                let yawPitch = calculateQuatToEuler(rot.getNum("x"),
+                                                    rot.getNum("y"),
+                                                    rot.getNum("z"),
+                                                    rot.getNum("w"));
+
+                angleMode(RADIANS);                                    
+                console.log(yawPitch.pitch/Math.PI*180);
+                if(yawPitch.pitch >= Math.PI/4){
+                    rotateX(Math.PI/2);
+                    rotateY(Math.PI);
+                }
+                if(yawPitch.pitch <= -Math.PI/4){
+                    rotateX(-Math.PI/2);
+                }
+
+                rotateY(Math.PI);
+
+                let p = createVector(0,0,-dist);
+                p = rotatePx(p,radians(heit));
+                p = rotatePy(p,radians(crot));
+                
+                stroke(100);
+                strokeWeight(0.5);
+                dashedLine(0,0,0,p.x,p.y,p.z);
+                noStroke();
+
+                angleMode(DEGREES);
+
+                rotateY(crot);
+                rotateX(heit);
+                translate(0,0,-dist);
+                rotateX(-pitch);
+                angleMode(RADIANS);
+
+                scale(scl.getNum("x"),
+                    scl.getNum("y"),
+                    scl.getNum("z"));
+                scale(-1,1,1);
+
+                drawingContext.disable(drawingContext.DEPTH_TEST);
+                texture(textures[id]);
+                model(cameraBlock);
+                drawingContext.enable(drawingContext.DEPTH_TEST);
+                pop();
+            }
 
             rotateQuaternion(rot.getNum("x"),
                             rot.getNum("y"),
                             rot.getNum("z"),
                             rot.getNum("w"));
-
-            let yawPitch = calculateQuatToEuler(rot.getNum("x"),
-                                                rot.getNum("y"),
-                                                rot.getNum("z"),
-                                                rot.getNum("w"));
-
-            angleMode(RADIANS);                                    
-            console.log(yawPitch.pitch/Math.PI*180);
-            if(yawPitch.pitch >= Math.PI/4){
-                rotateX(Math.PI/2);
-                rotateY(Math.PI);
-            }
-            if(yawPitch.pitch <= -Math.PI/4){
-                rotateX(-Math.PI/2);
-            }
-
-            rotateY(Math.PI);
-
-            let p = createVector(0,0,-dist);
-            p = rotatePx(p,radians(heit));
-            p = rotatePy(p,radians(crot));
-            
-            stroke(100);
-            strokeWeight(0.5);
-            dashedLine(0,0,0,p.x,p.y,p.z);
-            noStroke();
-
-            angleMode(DEGREES);
-
-            rotateY(crot);
-            rotateX(heit);
-            translate(0,0,-dist);
-            rotateX(-pitch);
-            angleMode(RADIANS);
 
             scale(scl.getNum("x"),
                 scl.getNum("y"),
@@ -484,30 +512,15 @@ function loadMachine(bsg){
             scale(-1,1,1);
 
             drawingContext.disable(drawingContext.DEPTH_TEST);
+            tint(255, 120);
             texture(textures[id]);
-            model(cameraBlock);
+            model(objs[id]);
             drawingContext.enable(drawingContext.DEPTH_TEST);
+
             pop();
         }
-
-        rotateQuaternion(rot.getNum("x"),
-                         rot.getNum("y"),
-                         rot.getNum("z"),
-                         rot.getNum("w"));
-
-        scale(scl.getNum("x"),
-            scl.getNum("y"),
-            scl.getNum("z"));
-        scale(-1,1,1);
-
-        drawingContext.disable(drawingContext.DEPTH_TEST);
-        tint(255, 120);
-        texture(textures[id]);
-        model(objs[id]);
-        drawingContext.enable(drawingContext.DEPTH_TEST);
-
-        pop();
     }
+
     pop();
 }
 
