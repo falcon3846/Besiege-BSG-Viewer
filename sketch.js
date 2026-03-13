@@ -33,6 +33,7 @@ function preload(){
     testTex = loadImage('assets/0.png');
 
     for(let n = 0; n < 90; n ++){
+        document.getElementById("value").textContent = Math.floor(n*100/90)+"%";
         try{
             loadModel(
                 'assets/'+ n + '.obj',false,
