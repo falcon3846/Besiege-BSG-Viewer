@@ -74,6 +74,7 @@ function preload(){
 
 function setup(){
     createCanvas(windowWidth, windowHeight, WEBGL);
+    document.getElementById("loading").style.display = "none";
     textureMode(NORMAL);
     textAlign(CENTER,CENTER);
     let input = createFileInput(handleFile);
