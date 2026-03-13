@@ -318,17 +318,17 @@ function loadMachine(bsg){
                 isFlipped = true;
             }
         }
-        if(isFlipped){
+        if(isFlipped && (id == 26 || id == 55)){//ペラのみ.
             scale(1,-1,1);
         }
 
         //二点を結ぶブレース等.
         let vec = block.getChild("Data").getChildren("Vector3");
         let isBrace = false;
-        let startPos;
-        let startRot;
-        let endPos;
-        let endRot;
+        let startPos = createVector(0,0,0);
+        let startRot = createVector(0,0,0);
+        let endPos = createVector(0,0,0);
+        let endRot = createVector(0,0,0);
         for(let v of vec){
             if(v.getString("key") === "start-position"){
                 startPos = createVector(Number(v.getChild("X").getContent()),
