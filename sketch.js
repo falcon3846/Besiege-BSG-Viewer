@@ -25,6 +25,9 @@ let center = {x:0, y:-5.05*blockScale, z:0};
 
 let prevTouches = [];
 
+let loadedFiles = 0;
+let blockNum = 90;
+
 function preload(){
     testBsg = loadXML("test.bsg", xmlLoaded);
     loadBsg = testBsg;
@@ -32,13 +35,15 @@ function preload(){
     testObj = loadModel('assets/0.obj', false);
     testTex = loadImage('assets/0.png');
 
-    for(let n = 0; n < 90; n ++){
-        document.getElementById("value").textContent = Math.floor(n*100/90)+"%";
+    for(let n = 0; n < blockNum; n ++){
         try{
             loadModel(
                 'assets/'+ n + '.obj',false,
                 m => {
                     objs[n] = m;
+                    loadedFiles += 1;
+                    document.getElementById("value").textContent = 
+                    Math.floor(loadedFiles*100/(blockNum*2))+"%";
                 },
                 err => {
                     console.log("missing",n);
@@ -54,6 +59,9 @@ function preload(){
                 'assets/'+ n + '.png',
                 img => {
                     textures[n] = img;
+                    loadedFiles += 1;
+                    document.getElementById("value").textContent = 
+                    Math.floor(loadedFiles*100/(blockNum*2))+"%";
                 },
                 err => {
                     console.log("missing", path);
