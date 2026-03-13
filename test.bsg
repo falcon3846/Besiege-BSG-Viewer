@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Besiege machine save file.-->
+<Machine version="1" bsgVersion="1.3" name="飛行機">
+    <!--The machine's position and rotation.-->
+    <Global>
+        <Position x="0" y="5.05" z="0" />
+        <Rotation x="0" y="0" z="0" w="1" />
+    </Global>
+    <!--The machine's additional data or modded data.-->
+    <Data>
+        <StringArray key="requiredMods" />
+    </Data>
+    <!--The machine's blocks.-->
+    <Blocks>
+        <Block id="0" guid="436cf2aa-7a56-47c0-8026-9afad4b6ccd3">
+            <Transform>
+                <Position x="0" y="1.5" z="0" />
+                <Rotation x="0" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="1" guid="21e6dfaa-f3c6-4865-ae77-d1a55535ac2e">
+            <Transform>
+                <Position x="0" y="1.5" z="-0.5" />
+                <Rotation x="0" y="1" z="0" w="0" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-change-length">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Integer key="length">2</Integer>
+            </Data>
+        </Block>
+        <Block id="1" guid="5fa66fc1-ca2c-4638-bf99-ff520f7778c0">
+            <Transform>
+                <Position x="0" y="1.5" z="-2.500001" />
+                <Rotation x="0" y="1" z="0" w="0" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-change-length">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Integer key="length">2</Integer>
+            </Data>
+        </Block>
+        <Block id="34" guid="7e5e81d0-3643-476d-8b54-5363f9b5bf52">
+            <Transform>
+                <Position x="-0.5" y="1.5" z="0" />
+                <Rotation x="0" y="-0.7071068" z="0" w="0.7071068" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="34" guid="d977ab13-cf96-40f5-a8f1-5a55ce461786">
+            <Transform>
+                <Position x="-3.5" y="1.5" z="3.486872E-06" />
+                <Rotation x="0" y="-0.7071042" z="0" w="0.7071095" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="34" guid="95e67667-cdc9-4408-ae87-494040770652">
+            <Transform>
+                <Position x="0.5" y="1.5" z="0" />
+                <Rotation x="0" y="0.7071068" z="0" w="0.7071068" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="34" guid="0264142d-6dc3-474e-82be-7a0a6ebdcd1d">
+            <Transform>
+                <Position x="3.5" y="1.5" z="-4.172326E-06" />
+                <Rotation x="0" y="0.7071096" z="0" w="0.7071041" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="34" guid="ef1afa8b-d529-4a11-bd06-365116a9b266">
+            <Transform>
+                <Position x="0" y="1.5" z="-4.500001" />
+                <Rotation x="0" y="1" z="0" w="0" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="35" guid="a77d7d31-925c-49dc-8270-b21adb916a40">
+            <Transform>
+                <Position x="-1.999999" y="1" z="-8.495476E-07" />
+                <Rotation x="0.7071072" y="7.375701E-07" z="8.218629E-07" w="0.7071064" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Single key="bmt-mass">0.2</Single>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="35" guid="5d52aca0-cd55-43fc-8f53-4140cee4d3b8">
+            <Transform>
+                <Position x="1.999999" y="1" z="7.520325E-07" />
+                <Rotation x="0.7071061" y="-7.164959E-07" z="-8.007911E-07" w="0.7071075" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Single key="bmt-mass">0.2</Single>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="50" guid="9b923a82-cdb3-4aeb-ba9b-a2cfe525fe70">
+            <Transform>
+                <Position x="1.999997" y="0" z="2.778591E-06" />
+                <Rotation x="0.7071061" y="-7.164958E-07" z="-8.007912E-07" w="0.7071076" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="28" guid="64fd37f3-1524-4dfd-a41a-e982d730641a">
+            <Transform>
+                <Position x="1.999999" y="1.499999" z="-1.5" />
+                <Rotation x="0.7071068" y="0.7071068" z="1.639776E-06" w="-1.871398E-06" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <StringArray key="bmt-left">LeftArrow</StringArray>
+                <StringArray key="bmt-right">RightArrow</StringArray>
+                <Boolean key="bmt-autoReturn">True</Boolean>
+                <Single key="bmt-rotation-speed">2</Single>
+                <Boolean key="bmt-uselimits">True</Boolean>
+                <SingleArray key="bmt-limits">
+                    <Single>40</Single>
+                    <Single>40</Single>
+                </SingleArray>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="28" guid="55f27d3b-1d62-4086-822c-ff8e98f5226f">
+            <Transform>
+                <Position x="-2" y="1.499999" z="-1.5" />
+                <Rotation x="0.7071068" y="0.7071068" z="3.10833E-07" w="-3.789923E-07" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <StringArray key="bmt-left">LeftArrow</StringArray>
+                <StringArray key="bmt-right">RightArrow</StringArray>
+                <Boolean key="bmt-autoReturn">True</Boolean>
+                <Single key="bmt-rotation-speed">2</Single>
+                <Boolean key="bmt-uselimits">True</Boolean>
+                <SingleArray key="bmt-limits">
+                    <Single>40</Single>
+                    <Single>40</Single>
+                </SingleArray>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">True</Boolean>
+            </Data>
+        </Block>
+        <Block id="28" guid="247982de-4122-4f21-96e8-27b9de2f86dd">
+            <Transform>
+                <Position x="-1.5" y="1.499999" z="-6" />
+                <Rotation x="-0.7071066" y="-0.7071069" z="-1.106726E-06" w="1.341141E-06" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <StringArray key="bmt-left">UpArrow</StringArray>
+                <StringArray key="bmt-right">DownArrow</StringArray>
+                <Boolean key="bmt-autoReturn">True</Boolean>
+                <Single key="bmt-rotation-speed">2</Single>
+                <Boolean key="bmt-uselimits">True</Boolean>
+                <SingleArray key="bmt-limits">
+                    <Single>40</Single>
+                    <Single>40</Single>
+                </SingleArray>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="28" guid="f930ba04-3e1a-4689-94e4-69bc54ef2ca4">
+            <Transform>
+                <Position x="1.5" y="1.499999" z="-6.000001" />
+                <Rotation x="0.7071069" y="0.7071066" z="-2.046117E-07" w="-3.874408E-07" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <StringArray key="bmt-left">UpArrow</StringArray>
+                <StringArray key="bmt-right">DownArrow</StringArray>
+                <Boolean key="bmt-autoReturn">True</Boolean>
+                <Single key="bmt-rotation-speed">2</Single>
+                <Boolean key="bmt-uselimits">True</Boolean>
+                <SingleArray key="bmt-limits">
+                    <Single>40</Single>
+                    <Single>40</Single>
+                </SingleArray>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="26" guid="35c41173-ec22-4474-a5d4-f64ce87ad57b">
+            <Transform>
+                <Position x="2.500001" y="1.500001" z="-2.000001" />
+                <Rotation x="-0.1380014" y="0.6935099" z="-0.1380013" w="0.6935095" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="26" guid="5b366aca-1405-458b-8d4a-68fd202209c5">
+            <Transform>
+                <Position x="-2.499997" y="1.499999" z="-2" />
+                <Rotation x="0.13798" y="-0.6935136" z="-0.1379801" w="0.6935142" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="8dfd351f-1055-49ec-b40a-e3252d2e1106">
+            <Transform>
+                <Position x="2.000002" y="1.499999" z="-6.500001" />
+                <Rotation x="2.178552E-07" y="0.7071072" z="-3.502599E-08" w="0.7071064" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="d80f5dc1-04c2-4d62-888b-7026cc089813">
+            <Transform>
+                <Position x="-1.999998" y="1.500001" z="-6.5" />
+                <Rotation x="0.2706778" y="-0.6532482" z="-0.2706777" w="0.6532487" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="7" guid="e9aae806-2acf-413f-ae79-107aad56fbb7">
+            <Transform>
+                <Position x="0" y="2" z="-1" />
+                <Rotation x="-0.7071068" y="0" z="0" w="0.7071068" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <Single key="bmt-length">0</Single>
+                <Vector3 key="bmt-start-rotation">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="bmt-end-rotation">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <String key="bmt-TransformHolder" />
+                <Vector3 key="start-position">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="end-position">
+                    <X>-5</X>
+                    <Y>-1.000014</Y>
+                    <Z>-1.192093E-07</Z>
+                </Vector3>
+                <Vector3 key="start-rotation">
+                    <X>270</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="end-rotation">
+                    <X>270</X>
+                    <Y>0.0005259259</Y>
+                    <Z>0</Z>
+                </Vector3>
+            </Data>
+        </Block>
+        <Block id="7" guid="4cd379d5-140c-4e8f-a424-a7cef1735fbb">
+            <Transform>
+                <Position x="5" y="2" z="-1.456212E-05" />
+                <Rotation x="-0.7071058" y="2.149484E-06" z="3.413902E-06" w="0.7071078" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <Single key="bmt-length">0</Single>
+                <Vector3 key="bmt-start-rotation">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="bmt-end-rotation">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <String key="bmt-TransformHolder" />
+                <Vector3 key="start-position">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="end-position">
+                    <X>-4.999994</X>
+                    <Y>1.000025</Y>
+                    <Z>6.198883E-06</Z>
+                </Vector3>
+                <Vector3 key="start-rotation">
+                    <X>270</X>
+                    <Y>0.0003483384</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="end-rotation">
+                    <X>270</X>
+                    <Y>-3.684748E-11</Y>
+                    <Z>0</Z>
+                </Vector3>
+            </Data>
+        </Block>
+        <Block id="14" guid="530c94c6-e897-4e7e-a15d-df1155872768">
+            <Transform>
+                <Position x="0" y="2" z="0" />
+                <Rotation x="-0.7071068" y="0" z="0" w="0.7071068" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <StringArray key="bmt-spin">None</StringArray>
+                <Boolean key="bmt-automatic">True</Boolean>
+                <Boolean key="bmt-toggle-mode">False</Boolean>
+                <Boolean key="bmt-reverse">False</Boolean>
+                <Single key="bmt-speed">1.25</Single>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="34" guid="dbe36a63-3cb7-42e8-ae07-8c942fa72a66">
+            <Transform>
+                <Position x="1.937151E-06" y="2" z="-6.000001" />
+                <Rotation x="-0.5000001" y="0.5000015" z="0.4999985" w="0.4999999" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="2" guid="20a78504-0040-437b-ba91-ca30c2435255">
+            <Transform>
+                <Position x="0" y="1.499999" z="1" />
+                <Rotation x="2.682209E-07" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Boolean key="bmt-automatic">True</Boolean>
+                <Boolean key="bmt-toggle-mode">False</Boolean>
+                <Boolean key="bmt-auto-brake">True</Boolean>
+                <StringArray key="bmt-forward">None</StringArray>
+                <StringArray key="bmt-backward">None</StringArray>
+                <Single key="bmt-speed">2</Single>
+                <Single key="bmt-acceleration">Infinity</Single>
+                <Single key="bmt-contact">0.1</Single>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="2" guid="e0b8cb53-5dc9-4aa1-8b1b-eba4644f6f8d">
+            <Transform>
+                <Position x="0" y="1.499999" z="1.5" />
+                <Rotation x="4.470348E-07" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Boolean key="bmt-automatic">True</Boolean>
+                <Boolean key="bmt-toggle-mode">False</Boolean>
+                <Boolean key="bmt-auto-brake">True</Boolean>
+                <StringArray key="bmt-forward">None</StringArray>
+                <StringArray key="bmt-backward">None</StringArray>
+                <Single key="bmt-speed">2</Single>
+                <Single key="bmt-acceleration">Infinity</Single>
+                <Single key="bmt-contact">0.1</Single>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="40" guid="13709329-8bea-4e98-a38c-ef6e436e5894">
+            <Transform>
+                <Position x="0" y="1.5" z="0.5" />
+                <Rotation x="0" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="55" guid="54fa7826-018c-4247-88d6-e37f45257328">
+            <Transform>
+                <Position x="0" y="1.999997" z="3" />
+                <Rotation x="-0.7071065" y="0" z="0" w="0.7071072" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="66f2b32e-60bc-451c-907b-6fdccfcb7d3b">
+            <Transform>
+                <Position x="0" y="1.999999" z="4" />
+                <Rotation x="-0.7071066" y="0" z="0" w="0.707107" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">True</Boolean>
+            </Data>
+        </Block>
+        <Block id="22" guid="c942e5e7-4429-477d-b9b6-b0d3f210380d">
+            <Transform>
+                <Position x="0" y="1.499998" z="2.5" />
+                <Rotation x="4.470348E-07" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Single key="bmt-speed">2</Single>
+                <Single key="bmt-acceleration">Infinity</Single>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="7" guid="0bcc3fc7-861d-4b50-8164-4b06d525308a">
+            <Transform>
+                <Position x="0" y="1.499999" z="4.5" />
+                <Rotation x="2.682209E-07" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <Single key="bmt-length">0</Single>
+                <Vector3 key="bmt-start-rotation">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="bmt-end-rotation">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <String key="bmt-TransformHolder" />
+                <Vector3 key="start-position">
+                    <X>0</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="end-position">
+                    <X>0</X>
+                    <Y>-9.23872E-07</Y>
+                    <Z>-3.5</Z>
+                </Vector3>
+                <Vector3 key="start-rotation">
+                    <X>3.073585E-05</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+                <Vector3 key="end-rotation">
+                    <X>3.073585E-05</X>
+                    <Y>0</Y>
+                    <Z>0</Z>
+                </Vector3>
+            </Data>
+        </Block>
+        <Block id="2" guid="b69ed8e1-cd74-450c-a65d-d0acb957c123">
+            <Transform>
+                <Position x="0" y="1.499999" z="2" />
+                <Rotation x="2.682209E-07" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Boolean key="bmt-automatic">True</Boolean>
+                <Boolean key="bmt-toggle-mode">False</Boolean>
+                <Boolean key="bmt-auto-brake">True</Boolean>
+                <StringArray key="bmt-forward">None</StringArray>
+                <StringArray key="bmt-backward">None</StringArray>
+                <Single key="bmt-speed">2</Single>
+                <Single key="bmt-acceleration">Infinity</Single>
+                <Single key="bmt-contact">0.1</Single>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="c728b2ad-a9f5-47a7-9236-73357eaba85d">
+            <Transform>
+                <Position x="-0.5" y="1.499997" z="3" />
+                <Rotation x="0.5001203" y="-0.4998792" z="-0.5001208" w="0.4998797" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="50" guid="ddbd7d3f-2f4f-44c0-8265-f20fcec777cf">
+            <Transform>
+                <Position x="-1.999997" y="0" z="-2.04164E-06" />
+                <Rotation x="0.7071072" y="7.375699E-07" z="8.218631E-07" w="0.7071065" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="19" guid="b14eee0a-bceb-4779-9376-2e7b7b7b4f49">
+            <Transform>
+                <Position x="0" y="1.499999" z="3.5" />
+                <Rotation x="2.682209E-07" y="0" z="0" w="1" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <String key="bmt-TransformHolder" />
+            </Data>
+        </Block>
+        <Block id="55" guid="05fbabf8-885c-4f6f-a36e-92d36c008d2e">
+            <Transform>
+                <Position x="-0.5" y="1.499999" z="4" />
+                <Rotation x="-0.2706763" y="-0.6532491" z="0.2706766" w="0.653249" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">True</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="1e91e23c-65d7-453b-b53b-0c53ef6f5fd1">
+            <Transform>
+                <Position x="0" y="0.9999971" z="3" />
+                <Rotation x="0.7071071" y="0" z="0" w="0.7071065" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="72b3cc0f-aef6-43a9-b130-36b053853a7d">
+            <Transform>
+                <Position x="0" y="0.999999" z="4" />
+                <Rotation x="0.707107" y="0" z="0" w="0.7071066" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">True</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="ad1b6b97-30fc-4141-8c75-b63784c9c8e6">
+            <Transform>
+                <Position x="0.5" y="1.499997" z="3" />
+                <Rotation x="-0.2706765" y="0.653249" z="-0.2706762" w="0.6532492" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">True</Boolean>
+            </Data>
+        </Block>
+        <Block id="55" guid="f45e6205-bbfc-4217-8f23-0018aa5c4b66">
+            <Transform>
+                <Position x="0.5" y="1.499999" z="4" />
+                <Rotation x="0.270677" y="0.653249" z="0.2706767" w="0.6532487" />
+                <Scale x="1" y="1" z="1" />
+            </Transform>
+            <Settings>
+                <Skin name="Minecraft" id="704826188" />
+            </Settings>
+            <Data>
+                <Integer key="bmt-ExchangeMenu">0</Integer>
+                <Boolean key="bmt-Exchange">False</Boolean>
+                <Integer key="bmt-Group">0</Integer>
+                <Boolean key="bmt-exchange-to-wooden-panel">False</Boolean>
+                <String key="bmt-TransformHolder" />
+                <Boolean key="flipped">False</Boolean>
+            </Data>
+        </Block>
+    </Blocks>
+</Machine>
