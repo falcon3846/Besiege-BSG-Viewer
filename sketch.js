@@ -612,220 +612,143 @@ function buildSurface(corns,mids,thickness,guid){//ノードからメッシュ�
     let m0Y = mids[2];
     let m1Y = mids[3];
 
-    let detail = 1/8;
-    let pointslist = [];
-    for(let u = 0; u <= 1+ detail/2; u += detail){
-        let points = [];
+    let g = new p5.Geometry();
+    g.gid = guid;
+
+    let detail = 8;
+    let delta = 1/detail;
+
+    let pointsF = [];
+    let pointsB = [];
+    let uvs = [];
+    for(let u = 0; u <= 1 + delta/2; u += delta){
 
             let c0 = curve(u,p00,p10,mX0);
             let c1 = curve(u,p01,p11,mX1);
 
-        for(let v = 0; v <= 1 + detail/2; v += detail){
+            let dc0Du = dcurveDt(u,p00,p10,mX0);
+            let dc1Du = dcurveDt(u,p01,p11,mX1);
+
+            if(u == 0){//端に微小量追加
+                c0 = curve(0.01*delta,p00,p10,mX0);
+                c1 = curve(0.01*delta,p01,p11,mX1);
+                dc0Du = dcurveDt(0.01*delta,p00,p10,mX0);
+                dc1Du = dcurveDt(0.01*delta,p01,p11,mX1);
+            }else if(u <= 1 - delta/2){
+                c0 = curve(u-0.01*delta,p00,p10,mX0);
+                c1 = curve(u-0.01*delta,p01,p11,mX1);
+                dc0Du = dcurveDt(u-0.01*delta,p00,p10,mX0);
+                dc1Du = dcurveDt(u-0.01*delta,p01,p11,mX1);
+            }
+
+        for(let v = 0; v <= 1 + delta/2; v += delta){
             let d0 = curve(v,p00,p01,m0Y);
             let d1 = curve(v,p10,p11,m1Y);
 
+            let dD0Dv = dcurveDt(v,p00,p01,m0Y);
+            let dD1Dv = dcurveDt(v,p10,p11,m1Y);
+
+            if(v == 0){//端に微小量追加
+                d0 = curve(0.01*delta,p00,p01,m0Y);
+                d1 = curve(0.01*delta,p10,p11,m1Y);
+                dD0Dv = dcurveDt(0.01*delta,p00,p01,m0Y);
+                dD1Dv = dcurveDt(0.01*delta,p10,p11,m1Y);
+            }else if(v <= 1 - delta/2){
+                d0 = curve(v-0.01*delta,p00,p01,m0Y);
+                d1 = curve(v-0.01*delta,p10,p11,m1Y);
+                dD0Dv = dcurveDt(v-0.01*delta,p00,p01,m0Y);
+                dD1Dv = dcurveDt(v-0.01*delta,p10,p11,m1Y);
+            }
+
             let lc = p5.Vector.mult(c0,1-v).add(p5.Vector.mult(c1,v));
             let ld = p5.Vector.mult(d0,1-u).add(p5.Vector.mult(d1,u));
+
+            let dlcDu = p5.Vector.mult(dc0Du,1-v).add(p5.Vector.mult(dc1Du,v));
+            let dldDu = p5.Vector.mult(d0,-1).add(p5.Vector.mult(d1,1));
+            let dlcDv = p5.Vector.mult(c0,-1).add(p5.Vector.mult(c1,1));
+            let dldDv = p5.Vector.mult(dD0Dv,1-u).add(p5.Vector.mult(dD1Dv,u));
 
             let b =      p5.Vector.mult(p00,(1-u)*(1-v))
                     .add(p5.Vector.mult(p10,u*(1-v)))
                     .add(p5.Vector.mult(p01,(1-u)*v))
                     .add(p5.Vector.mult(p11,u*v));
 
+            let dbDu =   p5.Vector.mult(p00,-(1-v))
+                    .add(p5.Vector.mult(p10,1-v))
+                    .add(p5.Vector.mult(p01,-v))
+                    .add(p5.Vector.mult(p11,v));
+
+            let dbDv =   p5.Vector.mult(p00,-(1-u))
+                    .add(p5.Vector.mult(p10,-u))
+                    .add(p5.Vector.mult(p01,1-u))
+                    .add(p5.Vector.mult(p11,u));
+
             let c = p5.Vector.sub(p5.Vector.add(lc,ld),b);
 
-            points.push([c.x,c.y,c.z,u,v]);
+            let dcDu = p5.Vector.sub(p5.Vector.add(dlcDu,dldDu),dbDu);
+            let dcDv = p5.Vector.sub(p5.Vector.add(dlcDv,dldDv),dbDv);
 
+            let n = p5.Vector.cross(dcDu, dcDv).setMag(thickness);
+            let pF = p5.Vector.add(c,n);
+            let pB = p5.Vector.sub(c,n);
+
+            pointsF.push(pF);
+            pointsB.push(pB);
+            uvs.push([u,v]);
         }
-        pointslist.push(points);
     }
 
-  let g = new p5.Geometry();
-  g.gid = guid;
+    g.vertices = pointsF.concat(pointsB);
+    g.uvs = uvs.concat(uvs);
 
-  let cols = pointslist.length;
-  let rows = pointslist[0].length;
+    let k = Math.floor(pointsF.length**0.5);//+k:一列移動
+    let k2 = pointsF.length;//+k2:裏面に移動
+    let k3 = k*(k-1);//+k3:最初の列のとき最後の列に移動
 
-  let normals = computeNormals(pointslist);
+    for(let n = 0; n < k-1; n ++){
+        for(let m = 0; m < k-1; m ++){
+            let p = n*k+m;
+            g.faces.push([p,p+1,p+k]);//表面.
+            g.faces.push([p+1,p+k,p+k+1]);
 
-  let frontIndex = [];
-  let backIndex = [];
-
-  // ----- 頂点生成 -----
-
-  for(let i=0;i<cols;i++){
-    frontIndex[i]=[];
-    backIndex[i]=[];
-
-    for(let j=0;j<rows;j++){
-
-      let p = pointslist[i][j];
-      let n = normals[i][j];
-
-      let fx=p[0]+n[0]*thickness;
-      let fy=p[1]+n[1]*thickness;
-      let fz=p[2]+n[2]*thickness;
-
-      let bx=p[0]-n[0]*thickness;
-      let by=p[1]-n[1]*thickness;
-      let bz=p[2]-n[2]*thickness;
-
-      frontIndex[i][j] = g.vertices.length;
-      g.vertices.push(createVector(fx,fy,fz));
-      g.uvs.push([p[3],p[4]]);
-
-      backIndex[i][j] = g.vertices.length;
-      g.vertices.push(createVector(bx,by,bz));
-      g.uvs.push([p[3],p[4]]);
+            g.faces.push([p+k2,p+1+k2,p+k+k2]);//裏面.
+            g.faces.push([p+1+k2,p+k+k2,p+k+1+k2]);
+        }
     }
-  }
 
-  function tri(a,b,c){
-    g.faces.push([a,b,c]);
-  }
+    //側面
+    for(let n = 0; n < k-1; n ++){
+        g.faces.push([n,n+1,n+k2]);
+        g.faces.push([n+1,n+k2,n+k2+1]);
 
-  // ----- 表面 -----
+        g.faces.push([n+k3,n+1+k3,n+k2+k3]);
+        g.faces.push([n+1+k3,n+k2+k3,n+k2+1+k3]);
 
-  for(let i=0;i<cols-1;i++){
-  for(let j=0;j<rows-1;j++){
+        let m = n*k;
+        g.faces.push([m,m+k,m+k2]);
+        g.faces.push([m+k,m+k2,m+k+k2]);
 
-    let A=frontIndex[i][j];
-    let B=frontIndex[i+1][j];
-    let C=frontIndex[i][j+1];
-    let D=frontIndex[i+1][j+1];
+        m = (n+1)*k-1;
+        g.faces.push([m,m+k,m+k2]);
+        g.faces.push([m+k,m+k2,m+k+k2]);
+    }
 
-    tri(A,B,C);
-    tri(B,D,C);
-  }}
-
-  // ----- 裏面 -----
-
-  for(let i=0;i<cols-1;i++){
-  for(let j=0;j<rows-1;j++){
-
-    let A=backIndex[i][j];
-    let B=backIndex[i+1][j];
-    let C=backIndex[i][j+1];
-    let D=backIndex[i+1][j+1];
-
-    tri(C,B,A);
-    tri(C,D,B);
-  }}
-
-  // ----- 側面 (四辺) -----
-
-  for(let i=0;i<cols-1;i++){
-
-    let A=frontIndex[i][0];
-    let B=frontIndex[i+1][0];
-    let C=backIndex[i][0];
-    let D=backIndex[i+1][0];
-
-    tri(B,A,C);
-    tri(B,C,D);
-
-    A=frontIndex[i][rows-1];
-    B=frontIndex[i+1][rows-1];
-    C=backIndex[i][rows-1];
-    D=backIndex[i+1][rows-1];
-
-    tri(A,B,C);
-    tri(B,D,C);
-  }
-
-  for(let j=0;j<rows-1;j++){
-
-    let A=frontIndex[0][j];
-    let B=frontIndex[0][j+1];
-    let C=backIndex[0][j];
-    let D=backIndex[0][j+1];
-
-    tri(A,B,C);
-    tri(B,D,C);
-
-    A=frontIndex[cols-1][j];
-    B=frontIndex[cols-1][j+1];
-    C=backIndex[cols-1][j];
-    D=backIndex[cols-1][j+1];
-
-    tri(B,A,C);
-    tri(D,B,C);
-  }
-
-  g.computeNormals();
+    g.computeNormals();
 
     return g;
 
     function curve(t,p0,p1,m){
         return p5.Vector.add(p0,p1).add(p5.Vector.mult(m,-2)).mult(2*t**2).add(
             p5.Vector.mult(m,4).add(p5.Vector.mult(p0,-3)).sub(p1).mult(t)
-        ).add(p0);
-        
+        ).add(p0);   
     }
-    
-}
 
-function computeNormals(pointslist){
-
-  let cols = pointslist.length;
-  let rows = pointslist[0].length;
-
-  let normals = [];
-
-  for(let i=0;i<cols;i++){
-    normals[i]=[];
-    for(let j=0;j<rows;j++){
-      normals[i][j]=[0,0,0];
+    function dcurveDt(t,p0,p1,m){
+        return p5.Vector.add(p0,p1).add(p5.Vector.mult(m,-2)).mult(4*t).add(
+            p5.Vector.mult(m,4).add(p5.Vector.mult(p0,-3)).sub(p1)
+        );   
     }
-  }
 
-  function addNormal(i,j,a,b,c){
-
-    let ax=b[0]-a[0];
-    let ay=b[1]-a[1];
-    let az=b[2]-a[2];
-
-    let bx=c[0]-a[0];
-    let by=c[1]-a[1];
-    let bz=c[2]-a[2];
-
-    let nx = ay*bz-az*by;
-    let ny = az*bx-ax*bz;
-    let nz = ax*by-ay*bx;
-
-    normals[i][j][0]+=nx;
-    normals[i][j][1]+=ny;
-    normals[i][j][2]+=nz;
-  }
-
-  for(let i=0;i<cols-1;i++){
-    for(let j=0;j<rows-1;j++){
-
-      let A=pointslist[i][j];
-      let B=pointslist[i+1][j];
-      let C=pointslist[i][j+1];
-      let D=pointslist[i+1][j+1];
-
-      addNormal(i,j,A,B,C);
-      addNormal(i+1,j,B,D,A);
-      addNormal(i,j+1,C,A,D);
-      addNormal(i+1,j+1,D,C,B);
-    }
-  }
-
-  for(let i=0;i<cols;i++){
-    for(let j=0;j<rows;j++){
-
-      let n=normals[i][j];
-      let l=Math.hypot(n[0],n[1],n[2])||1;
-
-      n[0]/=l;
-      n[1]/=l;
-      n[2]/=l;
-    }
-  }
-
-  return normals;
 }
 
 function rotateQuaternion(x, y, z, w){
