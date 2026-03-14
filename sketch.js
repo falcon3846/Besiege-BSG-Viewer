@@ -352,6 +352,7 @@ function loadMachine(bsg){
                                         Number(v.getChild("Z").getContent()));
             }
         }
+        let braceLength = p5.Vector.sub(startPos,endPos).mag();
 
         scale(scl.getNum("x"),
             scl.getNum("y"),
@@ -368,12 +369,14 @@ function loadMachine(bsg){
             model(objs[id]);
             pop();
 
-            push();
-            translate(endPos);
-            rotateXYZ(endRot);
-            texture(textures[id]);
-            model(objs[id]);
-            pop();
+            if(braceLength > 0.0001){
+                push();
+                translate(endPos);
+                rotateXYZ(endRot);
+                texture(textures[id]);
+                model(objs[id]);
+                pop();
+            }
 
             stroke(10);
             strokeWeight(0.2*blockScale);
@@ -540,7 +543,6 @@ function searchNodes(block,blocks){//ノードを探す.
     let starts = [];
     let ends = [];
     let cornPoses = [];
-    let overlap = false;
     for(let str of strings){
         if(str.getString("key") === "edges"){
             edges = str.getContent().split("|");
@@ -557,9 +559,6 @@ function searchNodes(block,blocks){//ノードを探す.
                     let nStrings = nBlock.getChild("Data").getChildren("String");
                     for(let ns of nStrings){
                         if(ns.getString("key") === "start"){
-                            if(starts.includes(ns.getContent())){
-                                overlap = true;
-                            }
                             starts[n] = ns.getContent();
                         }
                         if(ns.getString("key") === "end"){
@@ -571,11 +570,9 @@ function searchNodes(block,blocks){//ノードを探す.
         }
     }
 
-    if(overlap){
-        let fixed = fixLoop(starts,ends);
-        starts = fixed.s;
-        ends = fixed.e;
-    }
+    let fixed = fixLoop(starts,ends);
+    starts = fixed.s;
+    ends = fixed.e;
 
     for(let nBlock of blocks){
         if(starts.includes(nBlock.getString("guid"))){
@@ -854,26 +851,41 @@ function dashedLine(x1,y1,z1, x2,y2,z2, dash=0.7, gap=0.5){
   }
 }
 
-function fixLoop(s, e){
+function fixLoop(starts, ends){
 
-  let n = s.length;
+  let n = starts.length;
 
-  for(let i=0;i<n;i++){
+  for(let mask = 0; mask < (1<<n); mask++){
 
-    let j = (i+1)%n;
+    let s = [];
+    let e = [];
 
-    if(e[i] != s[j]){
-
-      if(e[i] == e[j]){
-        // 反転
-        let tmp = s[j];
-        s[j] = e[j];
-        e[j] = tmp;
+    // 向きを決める
+    for(let i=0;i<n;i++){
+      if(mask & (1<<i)){
+        s[i] = ends[i];
+        e[i] = starts[i];
+      }else{
+        s[i] = starts[i];
+        e[i] = ends[i];
       }
-
     }
 
+    // 連鎖チェック
+    let ok = true;
+
+    for(let i=0;i<n;i++){
+      let next = (i+1)%n;
+      if(e[i] !== s[next]){
+        ok = false;
+        break;
+      }
+    }
+
+    if(ok){
+      return {s:s, e:e};
+    }
   }
 
-  return {s:s, e:e};
+  return null;
 }
