@@ -13,7 +13,15 @@ let textures = [];
 let shortenedWood;
 let shortenedPole;
 let shortenedLog;
+
 let cameraBlock;
+
+let middleBrace;
+let middleRope;
+let middleSpring;
+let middleDistMeter;
+
+let endDistMeter;
 
 let surfaces = [];
 
@@ -78,9 +86,15 @@ function preload(){
     shortenedWood = loadModel('assets/1s.obj',false);
     shortenedPole = loadModel('assets/41s.obj',false);
     shortenedLog = loadModel('assets/63s.obj',false);
+
     cameraBlock = loadModel("assets/58_2.obj",false);
 
+    middleBrace = loadModel('assets/7m.obj',false);
+    middleSpring = loadModel('assets/9m.obj',false);
+    middleRope = loadModel('assets/45m.obj',false);
+    middleDistMeter = loadModel('assets/75m.obj',false);
 
+    endDistMeter = loadModel('assets/75_2.obj',false);
 }
 
 function setup(){
@@ -361,6 +375,28 @@ function loadMachine(bsg){
 
 
         if(isBrace){//二点を結ぶブレース等.
+
+            push();
+            translate(p5.Vector.add(endPos,startPos).div(2));
+            rotateToVector(p5.Vector.sub(endPos,startPos));
+            scale(1,1,braceLength);
+            texture(textures[id]);
+            switch (id) {
+            case 7:
+                model(middleBrace);
+                break;
+            case 9:
+                model(middleSpring);
+                break;
+            case 45:
+                model(middleRope);
+                break;
+            case 75:
+                model(middleDistMeter);
+                break;
+            }
+            pop();
+
             angleMode(DEGREES);
             push();
             translate(startPos);
@@ -374,16 +410,16 @@ function loadMachine(bsg){
                 translate(endPos);
                 rotateXYZ(endRot);
                 texture(textures[id]);
-                model(objs[id]);
+                if(id == 75){
+                    model(endDistMeter);
+                }else{
+                    model(objs[id]);
+                }
                 pop();
             }
 
-            stroke(10);
-            strokeWeight(0.2*blockScale);
-            lineV(startPos,endPos);
-
             angleMode(RADIANS);
-            noStroke();
+
         }else{
             scale(-1,1,1);
 
@@ -888,4 +924,23 @@ function fixLoop(starts, ends){
   }
 
   return null;
+}
+
+function rotateToVector(v) {
+  let len = sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
+  if (len === 0) return;
+
+  // 正規化
+  let x = v.x / len;
+  let y = v.y / len;
+  let z = v.z / len;
+
+  // ヨー（y軸回転）
+  let yaw = atan2(x, z);
+
+  // ピッチ（x軸回転）
+  let pitch = -atan2(y, sqrt(x*x + z*z));
+
+  rotateY(yaw);
+  rotateX(pitch);
 }
