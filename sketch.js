@@ -469,6 +469,8 @@ function loadMachine(bsg){
 
     }
     if(showPinCam){
+        drawingContext.disable(drawingContext.DEPTH_TEST);
+        tint(255, 120);
         for(let pinCam of pinCams){
             let id = pinCam.getNum("id");
 
@@ -516,7 +518,6 @@ function loadMachine(bsg){
                                                     rot.getNum("w"));
 
                 angleMode(RADIANS);                                    
-                console.log(yawPitch.pitch/Math.PI*180);
                 if(yawPitch.pitch >= Math.PI/4){
                     rotateX(Math.PI/2);
                     rotateY(Math.PI);
@@ -549,10 +550,8 @@ function loadMachine(bsg){
                     scl.getNum("z"));
                 scale(-1,1,1);
 
-                drawingContext.disable(drawingContext.DEPTH_TEST);
                 texture(textures[id]);
                 model(cameraBlock);
-                drawingContext.enable(drawingContext.DEPTH_TEST);
                 pop();
             }
 
@@ -566,14 +565,13 @@ function loadMachine(bsg){
                 scl.getNum("z"));
             scale(-1,1,1);
 
-            drawingContext.disable(drawingContext.DEPTH_TEST);
-            tint(255, 120);
             texture(textures[id]);
             model(objs[id]);
-            drawingContext.enable(drawingContext.DEPTH_TEST);
-
+            
             pop();
         }
+        noTint();
+        drawingContext.enable(drawingContext.DEPTH_TEST);
     }
 
     pop();
