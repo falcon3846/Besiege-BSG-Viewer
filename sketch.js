@@ -275,7 +275,10 @@ function loadMachine(bsg){
         let id = block.getNum("id");
 
         if(id == 73){ //サフェ.
-
+            let scl = block.getChild("Transform").getChild("Scale");
+            let surfaceScale = createVector(scl.getNum("x"),
+                                            scl.getNum("y"),
+                                            scl.getNum("z"));
             let guid = block.getString("guid");
             let found = false;
             for(let surface of surfaces){
@@ -296,7 +299,7 @@ function loadMachine(bsg){
                 }
 
                 let nodes = searchNodes(block,blocks);
-                let surfaceModel = buildSurface(nodes.corns,nodes.mids,thickness,guid);
+                let surfaceModel = buildSurface(nodes.corns,nodes.mids,thickness,surfaceScale,guid);
                 surfaces.push(new Surface(guid,nodes.corns,nodes.mids,surfaceModel));
             }
 
@@ -647,7 +650,7 @@ function searchNodes(block,blocks){//ノードを探す.
     return {corns:nCornPoses,mids:nEdgePoses};
 }
 
-function buildSurface(corns,mids,thickness,guid){//ノードからメッシュを作成.
+function buildSurface(corns,mids,thickness,surfaceScale,guid){//ノードからメッシュを作成.
     let p00 = corns[0];
     let p10 = corns[1];
     let p01 = corns[2];
@@ -735,6 +738,7 @@ function buildSurface(corns,mids,thickness,guid){//ノードからメッシュ�
             let dcDv = p5.Vector.sub(p5.Vector.add(dlcDv,dldDv),dbDv);
 
             let n = p5.Vector.cross(dcDu, dcDv).setMag(thickness);
+            n.mult(surfaceScale.x,surfaceScale.y,surfaceScale.z);
             let pF = p5.Vector.add(c,n);
             let pB = p5.Vector.sub(c,n);
 
