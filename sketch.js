@@ -238,7 +238,6 @@ function resetCamera(){
 }
 
 
-
 function handleFile(file){
     machineLoaded = false;
     loadBsg = loadXML(file.data, xmlLoaded);
@@ -397,10 +396,18 @@ function loadMachine(bsg){
             }
             pop();
 
-            angleMode(DEGREES);
+            
             push();
             translate(startPos);
-            rotateXYZ(startRot);
+
+            antiRotateQuaternion(rot.getNum("x"),
+                         rot.getNum("y"),
+                         rot.getNum("z"),
+                         rot.getNum("w"));
+            angleMode(DEGREES);
+            rotateYXZ(startRot);
+            angleMode(RADIANS);
+
             texture(textures[id]);
             model(objs[id]);
             pop();
@@ -408,7 +415,15 @@ function loadMachine(bsg){
             if(braceLength > 0.0001){
                 push();
                 translate(endPos);
-                rotateXYZ(endRot);
+
+                antiRotateQuaternion(rot.getNum("x"),
+                         rot.getNum("y"),
+                         rot.getNum("z"),
+                         rot.getNum("w"));
+                angleMode(DEGREES);
+                rotateYXZ(endRot);
+                angleMode(RADIANS);
+
                 texture(textures[id]);
                 if(id == 75){
                     model(endDistMeter);
@@ -417,8 +432,6 @@ function loadMachine(bsg){
                 }
                 pop();
             }
-
-            angleMode(RADIANS);
 
         }else{
             scale(-1,1,1);
@@ -803,6 +816,25 @@ function rotateQuaternion(x, y, z, w){
   rotate(angle,[ax,ay,az]);
 }
 
+function antiRotateQuaternion(x, y, z, w){
+
+  let n = Math.sqrt(w*w + x*x + y*y + z*z);
+  w/=n; x/=n; y/=n; z/=n;
+
+  let angle = 2*Math.acos(w);
+  let s = Math.sqrt(1-w*w);
+
+  let ax=1, ay=0, az=0;
+
+  if(s>0.00001){
+    ax=x/s;
+    ay=y/s;
+    az=z/s;
+  }
+
+  rotate(angle,[-ax,-ay,-az]);
+}
+
 function calculateQuatToEuler(x,y,z,w){
     let qyp = getYawPitch(x,y,z);
     let yaw = qyp.yaw;
@@ -853,14 +885,10 @@ function rotatePz(p, theta) {
   return createVector(p.x*c - p.y*s, p.x*s + p.y*c, p.z);
 }
 
-function rotateXYZ(rot){
-    rotateX(rot.x);
+function rotateYXZ(rot){
     rotateY(rot.y);
+    rotateX(rot.x);
     rotateZ(rot.z);
-}
-
-function lineV(p,q){
-    line(p.x,p.y,p.z,q.x,q.y,q.z);
 }
 
 function dashedLine(x1,y1,z1, x2,y2,z2, dash=0.7, gap=0.5){
