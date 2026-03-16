@@ -98,6 +98,9 @@ function preload(){
 }
 
 function setup(){
+    if (windowWidth < 800 || window.devicePixelRatio > 1.5) {
+        pixelDensity(1);
+    }
     createCanvas(windowWidth, windowHeight, WEBGL);
     document.getElementById("loading").style.display = "none";
     textureMode(NORMAL);
