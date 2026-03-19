@@ -303,8 +303,9 @@ function loadMachine(bsg){
                 }
 
                 let nodes = searchNodes(block,blocks);
-                let surfaceModel = buildSurface(nodes.corns,nodes.mids,thickness,surfaceScale,guid);
-                surfaces.push(new Surface(guid,nodes.corns,nodes.mids,surfaceModel));
+                let surface = new Surface(guid,nodes.corns,nodes.mids,thickness,surfaceScale);
+                surface.buildSurface();
+                surfaces.push(surface);
             }
 
         }else if(block.hasAttribute("modId")){//mod
@@ -582,12 +583,175 @@ function loadMachine(bsg){
 }
 
 class Surface{
-    constructor(guid,corns,mids,surfaceModel){
+
+    guid = "";
+    corns = [];
+    mids = [];
+    thickness = 0;
+    surfaceScale = createVector();
+
+    surfaceModel = new p5.Geometry();
+
+    constructor(guid,corns,mids,thickness,surfaceScale){
         this.guid = guid;
         this.corns = corns;
         this.mids = mids;
-        this.surfaceModel = surfaceModel;
+        this.thickness = thickness;
+        this.surfaceScale = surfaceScale;
     }
+
+    buildSurface(){//ノードからメッシュを作成.
+        let p00 = this.corns[0];
+        let p10 = this.corns[1];
+        let p01 = this.corns[2];
+        let p11 = this.corns[3];
+
+        let mX0 = this.mids[0];
+        let mX1 = this.mids[1];
+        let m0Y = this.mids[2];
+        let m1Y = this.mids[3];
+
+        let g = new p5.Geometry();
+        g.gid = this.guid;
+
+        let detail = 8;
+        let delta = 1/detail;
+
+        let pointsF = [];
+        let pointsB = [];
+        let uvs = [];
+        for(let u = 0; u <= 1 + delta/2; u += delta){
+
+                let c0 = this.#curve(u,p00,p10,mX0);
+                let c1 = this.#curve(u,p01,p11,mX1);
+
+                let dc0Du = this.#dcurveDt(u,p00,p10,mX0);
+                let dc1Du = this.#dcurveDt(u,p01,p11,mX1);
+
+                if(u == 0){//端に微小量追加
+                    c0 = this.#curve(0.01*delta,p00,p10,mX0);
+                    c1 = this.#curve(0.01*delta,p01,p11,mX1);
+                    dc0Du = this.#dcurveDt(0.01*delta,p00,p10,mX0);
+                    dc1Du = this.#dcurveDt(0.01*delta,p01,p11,mX1);
+                }else if(u <= 1 - delta/2){
+                    c0 = this.#curve(u-0.01*delta,p00,p10,mX0);
+                    c1 = this.#curve(u-0.01*delta,p01,p11,mX1);
+                    dc0Du = this.#dcurveDt(u-0.01*delta,p00,p10,mX0);
+                    dc1Du = this.#dcurveDt(u-0.01*delta,p01,p11,mX1);
+                }
+
+            for(let v = 0; v <= 1 + delta/2; v += delta){
+                let d0 = this.#curve(v,p00,p01,m0Y);
+                let d1 = this.#curve(v,p10,p11,m1Y);
+
+                let dD0Dv = this.#dcurveDt(v,p00,p01,m0Y);
+                let dD1Dv = this.#dcurveDt(v,p10,p11,m1Y);
+
+                if(v == 0){//端に微小量追加
+                    d0 = this.#curve(0.01*delta,p00,p01,m0Y);
+                    d1 = this.#curve(0.01*delta,p10,p11,m1Y);
+                    dD0Dv = this.#dcurveDt(0.01*delta,p00,p01,m0Y);
+                    dD1Dv = this.#dcurveDt(0.01*delta,p10,p11,m1Y);
+                }else if(v <= 1 - delta/2){
+                    d0 = this.#curve(v-0.01*delta,p00,p01,m0Y);
+                    d1 = this.#curve(v-0.01*delta,p10,p11,m1Y);
+                    dD0Dv = this.#dcurveDt(v-0.01*delta,p00,p01,m0Y);
+                    dD1Dv = this.#dcurveDt(v-0.01*delta,p10,p11,m1Y);
+                }
+
+                let lc = p5.Vector.mult(c0,1-v).add(p5.Vector.mult(c1,v));
+                let ld = p5.Vector.mult(d0,1-u).add(p5.Vector.mult(d1,u));
+
+                let dlcDu = p5.Vector.mult(dc0Du,1-v).add(p5.Vector.mult(dc1Du,v));
+                let dldDu = p5.Vector.mult(d0,-1).add(p5.Vector.mult(d1,1));
+                let dlcDv = p5.Vector.mult(c0,-1).add(p5.Vector.mult(c1,1));
+                let dldDv = p5.Vector.mult(dD0Dv,1-u).add(p5.Vector.mult(dD1Dv,u));
+
+                let b =      p5.Vector.mult(p00,(1-u)*(1-v))
+                        .add(p5.Vector.mult(p10,u*(1-v)))
+                        .add(p5.Vector.mult(p01,(1-u)*v))
+                        .add(p5.Vector.mult(p11,u*v));
+
+                let dbDu =   p5.Vector.mult(p00,-(1-v))
+                        .add(p5.Vector.mult(p10,1-v))
+                        .add(p5.Vector.mult(p01,-v))
+                        .add(p5.Vector.mult(p11,v));
+
+                let dbDv =   p5.Vector.mult(p00,-(1-u))
+                        .add(p5.Vector.mult(p10,-u))
+                        .add(p5.Vector.mult(p01,1-u))
+                        .add(p5.Vector.mult(p11,u));
+
+                let c = p5.Vector.sub(p5.Vector.add(lc,ld),b);
+
+                let dcDu = p5.Vector.sub(p5.Vector.add(dlcDu,dldDu),dbDu);
+                let dcDv = p5.Vector.sub(p5.Vector.add(dlcDv,dldDv),dbDv);
+
+                let n = p5.Vector.cross(dcDu, dcDv).setMag(this.thickness);
+                n.mult(this.surfaceScale.x,this.surfaceScale.y,this.surfaceScale.z);
+                let pF = p5.Vector.add(c,n);
+                let pB = p5.Vector.sub(c,n);
+
+                pointsF.push(pF);
+                pointsB.push(pB);
+                uvs.push([u,v]);
+            }
+        }
+
+        g.vertices = pointsF.concat(pointsB);
+        g.uvs = uvs.concat(uvs);
+
+        let k = Math.floor(pointsF.length**0.5);//+k:一列移動
+        let k2 = pointsF.length;//+k2:裏面に移動
+        let k3 = k*(k-1);//+k3:最初の列のとき最後の列に移動
+
+        for(let n = 0; n < k-1; n ++){
+            for(let m = 0; m < k-1; m ++){
+                let p = n*k+m;
+                g.faces.push([p,p+1,p+k]);//表面.
+                g.faces.push([p+1,p+k,p+k+1]);
+
+                g.faces.push([p+k2,p+1+k2,p+k+k2]);//裏面.
+                g.faces.push([p+1+k2,p+k+k2,p+k+1+k2]);
+            }
+        }
+
+        //側面
+        for(let n = 0; n < k-1; n ++){
+            g.faces.push([n,n+1,n+k2]);
+            g.faces.push([n+1,n+k2,n+k2+1]);
+
+            g.faces.push([n+k3,n+1+k3,n+k2+k3]);
+            g.faces.push([n+1+k3,n+k2+k3,n+k2+1+k3]);
+
+            let m = n*k;
+            g.faces.push([m,m+k,m+k2]);
+            g.faces.push([m+k,m+k2,m+k+k2]);
+
+            m = (n+1)*k-1;
+            g.faces.push([m,m+k,m+k2]);
+            g.faces.push([m+k,m+k2,m+k+k2]);
+        }
+
+        g.computeNormals();
+
+        this.surfaceModel = g;
+        return this;
+
+    }
+
+    #curve(t,p0,p1,m){
+        return p5.Vector.add(p0,p1).add(p5.Vector.mult(m,-2)).mult(2*t**2).add(
+            p5.Vector.mult(m,4).add(p5.Vector.mult(p0,-3)).sub(p1).mult(t)
+        ).add(p0);   
+    }
+
+    #dcurveDt(t,p0,p1,m){
+        return p5.Vector.add(p0,p1).add(p5.Vector.mult(m,-2)).mult(4*t).add(
+            p5.Vector.mult(m,4).add(p5.Vector.mult(p0,-3)).sub(p1)
+        );   
+    }
+
 }
 
 function searchNodes(block,blocks){//ノードを探す.
@@ -650,157 +814,6 @@ function searchNodes(block,blocks){//ノードを探す.
     let nEdgePoses = [edgePoses[0],edgePoses[2],edgePoses[3],edgePoses[1]];
 
     return {corns:nCornPoses,mids:nEdgePoses};
-}
-
-function buildSurface(corns,mids,thickness,surfaceScale,guid){//ノードからメッシュを作成.
-    let p00 = corns[0];
-    let p10 = corns[1];
-    let p01 = corns[2];
-    let p11 = corns[3];
-
-    let mX0 = mids[0];
-    let mX1 = mids[1];
-    let m0Y = mids[2];
-    let m1Y = mids[3];
-
-    let g = new p5.Geometry();
-    g.gid = guid;
-
-    let detail = 8;
-    let delta = 1/detail;
-
-    let pointsF = [];
-    let pointsB = [];
-    let uvs = [];
-    for(let u = 0; u <= 1 + delta/2; u += delta){
-
-            let c0 = curve(u,p00,p10,mX0);
-            let c1 = curve(u,p01,p11,mX1);
-
-            let dc0Du = dcurveDt(u,p00,p10,mX0);
-            let dc1Du = dcurveDt(u,p01,p11,mX1);
-
-            if(u == 0){//端に微小量追加
-                c0 = curve(0.01*delta,p00,p10,mX0);
-                c1 = curve(0.01*delta,p01,p11,mX1);
-                dc0Du = dcurveDt(0.01*delta,p00,p10,mX0);
-                dc1Du = dcurveDt(0.01*delta,p01,p11,mX1);
-            }else if(u <= 1 - delta/2){
-                c0 = curve(u-0.01*delta,p00,p10,mX0);
-                c1 = curve(u-0.01*delta,p01,p11,mX1);
-                dc0Du = dcurveDt(u-0.01*delta,p00,p10,mX0);
-                dc1Du = dcurveDt(u-0.01*delta,p01,p11,mX1);
-            }
-
-        for(let v = 0; v <= 1 + delta/2; v += delta){
-            let d0 = curve(v,p00,p01,m0Y);
-            let d1 = curve(v,p10,p11,m1Y);
-
-            let dD0Dv = dcurveDt(v,p00,p01,m0Y);
-            let dD1Dv = dcurveDt(v,p10,p11,m1Y);
-
-            if(v == 0){//端に微小量追加
-                d0 = curve(0.01*delta,p00,p01,m0Y);
-                d1 = curve(0.01*delta,p10,p11,m1Y);
-                dD0Dv = dcurveDt(0.01*delta,p00,p01,m0Y);
-                dD1Dv = dcurveDt(0.01*delta,p10,p11,m1Y);
-            }else if(v <= 1 - delta/2){
-                d0 = curve(v-0.01*delta,p00,p01,m0Y);
-                d1 = curve(v-0.01*delta,p10,p11,m1Y);
-                dD0Dv = dcurveDt(v-0.01*delta,p00,p01,m0Y);
-                dD1Dv = dcurveDt(v-0.01*delta,p10,p11,m1Y);
-            }
-
-            let lc = p5.Vector.mult(c0,1-v).add(p5.Vector.mult(c1,v));
-            let ld = p5.Vector.mult(d0,1-u).add(p5.Vector.mult(d1,u));
-
-            let dlcDu = p5.Vector.mult(dc0Du,1-v).add(p5.Vector.mult(dc1Du,v));
-            let dldDu = p5.Vector.mult(d0,-1).add(p5.Vector.mult(d1,1));
-            let dlcDv = p5.Vector.mult(c0,-1).add(p5.Vector.mult(c1,1));
-            let dldDv = p5.Vector.mult(dD0Dv,1-u).add(p5.Vector.mult(dD1Dv,u));
-
-            let b =      p5.Vector.mult(p00,(1-u)*(1-v))
-                    .add(p5.Vector.mult(p10,u*(1-v)))
-                    .add(p5.Vector.mult(p01,(1-u)*v))
-                    .add(p5.Vector.mult(p11,u*v));
-
-            let dbDu =   p5.Vector.mult(p00,-(1-v))
-                    .add(p5.Vector.mult(p10,1-v))
-                    .add(p5.Vector.mult(p01,-v))
-                    .add(p5.Vector.mult(p11,v));
-
-            let dbDv =   p5.Vector.mult(p00,-(1-u))
-                    .add(p5.Vector.mult(p10,-u))
-                    .add(p5.Vector.mult(p01,1-u))
-                    .add(p5.Vector.mult(p11,u));
-
-            let c = p5.Vector.sub(p5.Vector.add(lc,ld),b);
-
-            let dcDu = p5.Vector.sub(p5.Vector.add(dlcDu,dldDu),dbDu);
-            let dcDv = p5.Vector.sub(p5.Vector.add(dlcDv,dldDv),dbDv);
-
-            let n = p5.Vector.cross(dcDu, dcDv).setMag(thickness);
-            n.mult(surfaceScale.x,surfaceScale.y,surfaceScale.z);
-            let pF = p5.Vector.add(c,n);
-            let pB = p5.Vector.sub(c,n);
-
-            pointsF.push(pF);
-            pointsB.push(pB);
-            uvs.push([u,v]);
-        }
-    }
-
-    g.vertices = pointsF.concat(pointsB);
-    g.uvs = uvs.concat(uvs);
-
-    let k = Math.floor(pointsF.length**0.5);//+k:一列移動
-    let k2 = pointsF.length;//+k2:裏面に移動
-    let k3 = k*(k-1);//+k3:最初の列のとき最後の列に移動
-
-    for(let n = 0; n < k-1; n ++){
-        for(let m = 0; m < k-1; m ++){
-            let p = n*k+m;
-            g.faces.push([p,p+1,p+k]);//表面.
-            g.faces.push([p+1,p+k,p+k+1]);
-
-            g.faces.push([p+k2,p+1+k2,p+k+k2]);//裏面.
-            g.faces.push([p+1+k2,p+k+k2,p+k+1+k2]);
-        }
-    }
-
-    //側面
-    for(let n = 0; n < k-1; n ++){
-        g.faces.push([n,n+1,n+k2]);
-        g.faces.push([n+1,n+k2,n+k2+1]);
-
-        g.faces.push([n+k3,n+1+k3,n+k2+k3]);
-        g.faces.push([n+1+k3,n+k2+k3,n+k2+1+k3]);
-
-        let m = n*k;
-        g.faces.push([m,m+k,m+k2]);
-        g.faces.push([m+k,m+k2,m+k+k2]);
-
-        m = (n+1)*k-1;
-        g.faces.push([m,m+k,m+k2]);
-        g.faces.push([m+k,m+k2,m+k+k2]);
-    }
-
-    g.computeNormals();
-
-    return g;
-
-    function curve(t,p0,p1,m){
-        return p5.Vector.add(p0,p1).add(p5.Vector.mult(m,-2)).mult(2*t**2).add(
-            p5.Vector.mult(m,4).add(p5.Vector.mult(p0,-3)).sub(p1).mult(t)
-        ).add(p0);   
-    }
-
-    function dcurveDt(t,p0,p1,m){
-        return p5.Vector.add(p0,p1).add(p5.Vector.mult(m,-2)).mult(4*t).add(
-            p5.Vector.mult(m,4).add(p5.Vector.mult(p0,-3)).sub(p1)
-        );   
-    }
-
 }
 
 function rotateQuaternion(x, y, z, w){
