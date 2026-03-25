@@ -258,6 +258,8 @@ function loadMachine(bsg){
     let globalPos = global.getChild("Position");
     let globalRot = global.getChild("Rotation");
 
+    let camLines = [];
+
     push();
 
     rotateZ(Math.PI);
@@ -475,7 +477,6 @@ function loadMachine(bsg){
     }
     if(showPinCam){
         drawingContext.disable(drawingContext.DEPTH_TEST);
-        tint(255, 120);
         for(let pinCam of pinCams){
             let id = pinCam.getNum("id");
 
@@ -493,8 +494,10 @@ function loadMachine(bsg){
                 let singles = pinCam.getChild("Data").getChildren("Single");
                 let dist = 32;
                 let heit = 18;
-                let crot = 0;
+                let cRot = 0;
                 let pitch = 0;
+                let roll = 0;
+                let yaw = 0;
                 for(let s of singles){
                     if(s.getString("key") === "bmt-distance"){
                         dist = Number(s.getContent());
@@ -503,57 +506,55 @@ function loadMachine(bsg){
                         heit = Number(s.getContent());
                     }
                     if(s.getString("key") === "bmt-rotation"){
-                        crot = Number(s.getContent());
+                        cRot = Number(s.getContent());
                     }
                     if(s.getString("key") === "bmt-pitch"){
                         pitch = Number(s.getContent());
-                    }                
+                    }              
+                    if(s.getString("key") === "bmt-roll"){
+                        roll = Number(s.getContent());
+                    }             
+                    if(s.getString("key") === "bmt-yaw"){
+                        yaw = Number(s.getContent());
+                    }             
                 }
 
                 push();
 
-                rotateQuaternion(rot.getNum("x"),
-                                rot.getNum("y"),
-                                rot.getNum("z"),
-                                rot.getNum("w"));
+                let q = {x:rot.getNum("x"),
+                        y:rot.getNum("y"),
+                        z:rot.getNum("z"),
+                        w:rot.getNum("w")};
 
-                let yawPitch = calculateQuatToEuler(rot.getNum("x"),
-                                                    rot.getNum("y"),
-                                                    rot.getNum("z"),
-                                                    rot.getNum("w"));
-
-                angleMode(RADIANS);                                    
-                if(yawPitch.pitch >= Math.PI/4){
-                    rotateX(Math.PI/2);
-                    rotateY(Math.PI);
+                let v = rotateVectorByQuaternion(createVector(0,0,1), q);
+                let nv = createVector(v.x,0,v.z);
+                if(p5.Vector.equals(nv,createVector()) || abs(v.angleBetween(nv)) >= PI/4){
+                    v = rotateVectorByQuaternion(createVector(0,1,0), q);
                 }
-                if(yawPitch.pitch <= -Math.PI/4){
-                    rotateX(-Math.PI/2);
-                }
+                v.mult(dist);
 
-                rotateY(Math.PI);
+                v = rotatePitch(v,radians(heit));
+                v = rotatePy(v,radians(cRot));
 
-                let p = createVector(0,0,-dist);
-                p = rotatePx(p,radians(heit));
-                p = rotatePy(p,radians(crot));
+                let camRot = lookAt(v,createVector(0,1,0));
+                rotateQuaternion(camRot.x,camRot.y,camRot.z,camRot.w);
+
+                let lv = p5.Vector.sub(v,p5.Vector.normalize(v));
+
+                camLines.push([pos.getNum("x"),pos.getNum("y"),pos.getNum("z"),
+                                pos.getNum("x")+lv.x,pos.getNum("y")+lv.y,pos.getNum("z")+lv.z]);
+
+                translate(0,0,dist);
                 
-                stroke(100);
-                strokeWeight(0.5);
-                dashedLine(0,0,0,p.x,p.y,p.z);
-                noStroke();
-
-                angleMode(DEGREES);
-
-                rotateY(crot);
-                rotateX(heit);
-                translate(0,0,-dist);
-                rotateX(-pitch);
-                angleMode(RADIANS);
+                rotateX(radians(pitch));
+                rotateY(radians(-yaw));
+                rotateZ(radians(roll));
 
                 scale(scl.getNum("x"),
                     scl.getNum("y"),
                     scl.getNum("z"));
                 scale(-1,1,1);
+                rotateY(PI);
 
                 texture(textures[id]);
                 model(cameraBlock);
@@ -575,9 +576,11 @@ function loadMachine(bsg){
             
             pop();
         }
-        noTint();
+        
         drawingContext.enable(drawingContext.DEPTH_TEST);
     }
+
+    drawCamLine(camLines);
 
     pop();
 }
@@ -854,32 +857,50 @@ function antiRotateQuaternion(x, y, z, w){
   rotate(angle,[-ax,-ay,-az]);
 }
 
-function calculateQuatToEuler(x,y,z,w){
-    let qyp = getYawPitch(x,y,z);
-    let yaw = qyp.yaw;
-    let pitch = qyp.pitch;
-    let theta = 2 * Math.acos(w);
-    let p = createVector(0,0,1);
-    p = rotatePy(p,-yaw);
-    p = rotatePz(p,-pitch);
-    p = rotatePx(p,theta);
-    p = rotatePz(p,pitch);
-    p = rotatePy(p,yaw);
-    let vyp = getYawPitch(p.x,p.y,p.z);
-    return {yaw: vyp.yaw, pitch: vyp.pitch};
+function rotateVectorByQuaternion(v, q) {
+
+  let nq = normalizeQuat(q);
+
+  // クォータニオン共役
+  const qConj = {
+    w: nq.w,
+    x: -nq.x,
+    y: -nq.y,
+    z: -nq.z
+  };
+
+  // ベクトルをクォータニオン化（w=0）
+  const vQuat = {
+    w: 0,
+    x: v.x,
+    y: v.y,
+    z: v.z
+  };
+
+  // q * v * q^-1
+  const temp = quatMultiply(nq, vQuat);
+  const result = quatMultiply(temp, qConj);
+
+  return createVector(result.x,result.y,result.z);
 
 }
 
-function getYawPitch(x, y, z) {
-
-  let yaw = Math.atan2(z, x);
-
-  let r = Math.sqrt(x*x + z*z);
-  let pitch = Math.atan2(y, r);
-
+function quatMultiply(a, b) {
   return {
-    yaw: yaw,
-    pitch: pitch
+    w: a.w*b.w - a.x*b.x - a.y*b.y - a.z*b.z,
+    x: a.w*b.x + a.x*b.w + a.y*b.z - a.z*b.y,
+    y: a.w*b.y - a.x*b.z + a.y*b.w + a.z*b.x,
+    z: a.w*b.z + a.x*b.y - a.y*b.x + a.z*b.w
+  };
+}
+
+function normalizeQuat(q){
+  let len = Math.sqrt(q.w*q.w + q.x*q.x + q.y*q.y + q.z*q.z);
+  return {
+    w: q.w/len,
+    x: q.x/len,
+    y: q.y/len,
+    z: q.z/len
   };
 }
 
@@ -904,34 +925,118 @@ function rotatePz(p, theta) {
   return createVector(p.x*c - p.y*s, p.x*s + p.y*c, p.z);
 }
 
+function rotatePitch(v, p) {
+  // v: p5.Vector（回転したい方向ベクトル）
+  // p: 回転角（ラジアン）
+
+  const up = createVector(0, 1, 0);
+
+  // right軸 = v × up（または up × v でもOK、向きが逆になるだけ）
+  let right = p5.Vector.cross(v, up);
+
+  // ほぼ真上/真下対策（長さが0に近い）
+  if (right.magSq() < 1e-8) {
+    right = createVector(1, 0, 0); // 適当な軸
+  } else {
+    right.normalize();
+  }
+
+  // ロドリゲスの回転公式
+  let cosP = Math.cos(p);
+  let sinP = Math.sin(p);
+
+  let term1 = p5.Vector.mult(v, cosP);
+  let term2 = p5.Vector.mult(p5.Vector.cross(right, v), sinP);
+  let term3 = p5.Vector.mult(right, p5.Vector.dot(right, v) * (1 - cosP));
+
+  return p5.Vector.add(term1, term2).add(term3);
+}
+
 function rotateYXZ(rot){
     rotateY(rot.y);
     rotateX(rot.x);
     rotateZ(rot.z);
 }
 
-function dashedLine(x1,y1,z1, x2,y2,z2, dash=0.7, gap=0.5){
-  let dir = createVector(x2-x1, y2-y1, z2-z1);
-  let len = dir.mag();
-  dir.normalize();
 
-  let dist = 0;
 
-  while(dist < len){
-    let start = dist;
-    let end = min(dist + dash, len);
+function lookAt(n, u) {
+  // n: forward（向きたい方向）
+  // u: up（上方向）
 
-    line(
-      x1 + dir.x*start,
-      y1 + dir.y*start,
-      z1 + dir.z*start,
-      x1 + dir.x*end,
-      y1 + dir.y*end,
-      z1 + dir.z*end
-    );
+  // 正規化
+  let forward = p5.Vector.normalize(n);
 
-    dist += dash + gap;
+  // right = u × n
+  let right = p5.Vector.normalize(p5.Vector.cross(u, forward));
+
+    // forward と right が平行に近い場合の対策
+  if (right.mag() < 1e-6) {
+    // 適当な別の軸で再構成
+    right = p5.Vector.normalize(p5.Vector.cross(createVector(0,1,0), forward));
+    if (right.mag() < 1e-6) {
+      right = p5.Vector.normalize(p5.Vector.cross(createVector(1,0,0), forward));
+    }
   }
+
+  // 再計算された up
+  let up = p5.Vector.cross(forward, right);
+
+  // 回転行列（列ベクトル）
+  let m00 = right.x,   m01 = up.x,   m02 = forward.x;
+  let m10 = right.y,   m11 = up.y,   m12 = forward.y;
+  let m20 = right.z,   m21 = up.z,   m22 = forward.z;
+
+  // 行列 → クォータニオン変換
+  let trace = m00 + m11 + m22;
+  let q = {};
+
+  if (trace > 0) {
+    let s = Math.sqrt(trace + 1.0) * 2;
+    q.w = 0.25 * s;
+    q.x = (m21 - m12) / s;
+    q.y = (m02 - m20) / s;
+    q.z = (m10 - m01) / s;
+  } else if (m00 > m11 && m00 > m22) {
+    let s = Math.sqrt(1.0 + m00 - m11 - m22) * 2;
+    q.w = (m21 - m12) / s;
+    q.x = 0.25 * s;
+    q.y = (m01 + m10) / s;
+    q.z = (m02 + m20) / s;
+  } else if (m11 > m22) {
+    let s = Math.sqrt(1.0 + m11 - m00 - m22) * 2;
+    q.w = (m02 - m20) / s;
+    q.x = (m01 + m10) / s;
+    q.y = 0.25 * s;
+    q.z = (m12 + m21) / s;
+  } else {
+    let s = Math.sqrt(1.0 + m22 - m00 - m11) * 2;
+    q.w = (m10 - m01) / s;
+    q.x = (m02 + m20) / s;
+    q.y = (m12 + m21) / s;
+    q.z = 0.25 * s;
+  }
+
+  return normalizeQuat(q);
+}
+
+function rotateToVector(v) {
+  let len = sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
+  if (len === 0) return;
+
+  // 正規化
+  let x = v.x / len;
+  let y = v.y / len;
+  let z = v.z / len;
+
+  // ヨー（y軸回転）
+  let yaw = atan2(x, z);
+
+  // ピッチ（x軸回転）
+  let pitch = -atan2(y, sqrt(x*x + z*z));
+
+  rotateY(yaw);
+  rotateX(pitch);
 }
 
 function fixLoop(starts, ends){
@@ -973,21 +1078,59 @@ function fixLoop(starts, ends){
   return null;
 }
 
-function rotateToVector(v) {
-  let len = sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
-  if (len === 0) return;
+function drawCamLine(list) {
+    stroke(60);
+    strokeWeight(0.5);
 
-  // 正規化
-  let x = v.x / len;
-  let y = v.y / len;
-  let z = v.z / len;
+    // 10本超えたら普通の線
+    if (list.length > 100) {
+        beginShape(LINES);
+        for (let line of list) {
+            vertex(line[0], line[1], line[2]);
+            vertex(line[3], line[4], line[5]);
+        }
+        endShape();
+    } else {
+        // 破線設定
+        const dashLength = 0.2;  // 描く長さ
+        const gapLength = 0.2;   // 空白
+        const step = dashLength + gapLength;
 
-  // ヨー（y軸回転）
-  let yaw = atan2(x, z);
+        beginShape(LINES);
 
-  // ピッチ（x軸回転）
-  let pitch = -atan2(y, sqrt(x*x + z*z));
+        for (let line of list) {
+            let x1 = line[0], y1 = line[1], z1 = line[2];
+            let x2 = line[3], y2 = line[4], z2 = line[5];
 
-  rotateY(yaw);
-  rotateX(pitch);
+            let dx = x2 - x1;
+            let dy = y2 - y1;
+            let dz = z2 - z1;
+
+            let len = Math.sqrt(dx*dx + dy*dy + dz*dz);
+
+            let ux = dx / len;
+            let uy = dy / len;
+            let uz = dz / len;
+
+            for (let t = 0; t < len; t += step) {
+                let start = t;
+                let end = Math.min(t + dashLength, len);
+
+                let sx = x1 + ux * start;
+                let sy = y1 + uy * start;
+                let sz = z1 + uz * start;
+
+                let ex = x1 + ux * end;
+                let ey = y1 + uy * end;
+                let ez = z1 + uz * end;
+
+                vertex(sx, sy, sz);
+                vertex(ex, ey, ez);
+            }
+        }
+
+        endShape();
+    }
+
+    noStroke();
 }
