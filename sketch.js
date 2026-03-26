@@ -4,6 +4,8 @@ let loadBsg;
 let testObj;
 let testTex;
 
+let font;
+
 let machineLoaded = false;
 let blockScale = 10;
 
@@ -25,6 +27,8 @@ let endDistMeter;
 
 let surfaces = [];
 
+let machineCost = 0;
+
 let rotX = -0.4;
 let rotY = 0.6;
 let distance = 15*blockScale;
@@ -39,6 +43,8 @@ let loadedFiles = 0;
 let blockNum = 90;
 
 function preload(){
+    font = loadFont("NotoSansJP-Regular.ttf");
+   
     testBsg = loadXML("test.bsg", xmlLoaded);
     loadBsg = testBsg;
 
@@ -104,6 +110,8 @@ function setup(){
     }
     createCanvas(windowWidth, windowHeight, WEBGL);
     document.getElementById("loading").style.display = "none";
+    textFont(font);
+    textSize(15);
     textureMode(NORMAL);
     textAlign(CENTER,CENTER);
     let input = createFileInput(handleFile);
@@ -131,6 +139,7 @@ function windowResized(){
 function draw(){
     background(190);
     perspective(PI/3, width/height, 0.001, 10000);
+
     updateCamera();
 
     if(machineLoaded){
@@ -142,6 +151,15 @@ function draw(){
             loadBsg = testBsg;
         }
     }
+
+    push();
+    resetMatrix();
+    translate(75-width/2,120-height/2);
+    camera(0, 0, (height/2) / tan(PI/6), 0, 0, 0, 0, 1, 0);
+    fill(0);
+    text("総ブロック数: " + machineCost,0, 0);
+    pop();
+
 
     // if(frameCount % 30 === 0){
     // console.log(frameRate());
@@ -253,6 +271,7 @@ function xmlLoaded(){
 }
 
 function loadMachine(bsg){
+    machineCost = 0;
     noStroke();
     let global = bsg.getChild("Global");
     let globalPos = global.getChild("Position");
@@ -280,7 +299,13 @@ function loadMachine(bsg){
     for(let block of blocks){
         let id = block.getNum("id");
 
-        if(id == 73){ //サフェ.
+        machineCost += 1;
+
+        if(block.hasAttribute("modId")){//mod
+
+        }else if(id >= blockNum){
+
+        }else if(id == 73){ //サフェ.
             let scl = block.getChild("Transform").getChild("Scale");
             let surfaceScale = createVector(scl.getNum("x"),
                                             scl.getNum("y"),
@@ -310,10 +335,8 @@ function loadMachine(bsg){
                 surfaces.push(surface);
             }
 
-        }else if(block.hasAttribute("modId")){//mod
-
         }else if(id == 71 || id == 72){//サフェのノード.
-
+            machineCost -= 1;
         }else if(id == 57 || id == 58){//ピン、カメラ.
             pinCams.push(block);
         }else{
