@@ -302,8 +302,14 @@ function loadMachine(bsg){
         machineCost += 1;
 
         if(block.hasAttribute("modId")){//mod
+            if(block.hasAttribute("fallback")){
+                id = block.getNum("fallback");
+            }else{
+                continue;
+            }
+        }
 
-        }else if(id >= blockNum){
+        if(id >= blockNum){
 
         }else if(id == 73){ //サフェ.
             let scl = block.getChild("Transform").getChild("Scale");
@@ -315,8 +321,11 @@ function loadMachine(bsg){
             for(let surface of surfaces){
                 if(surface.guid == guid){
                     found = true;
-                    texture(textures[73]);
-                    model(surface.surfaceModel);
+                    if(surface.surfaceModel != null){
+                        texture(textures[73]);
+                        model(surface.surfaceModel);
+                    }
+                    break;
                 }
             }
 
@@ -326,6 +335,7 @@ function loadMachine(bsg){
                 for(let s of single){
                     if(s.getString("key") === "bmt-thickness"){
                     thickness = Number(s.getContent());
+                    break;
                     }
                 }
 
@@ -356,58 +366,58 @@ function loadMachine(bsg){
                          rot.getNum("z"),
                          rot.getNum("w"));
 
-        //反転(F)
-        let booleans = block.getChild("Data").getChildren("Boolean");
-        let isFlipped = false;
-        for(let bool of booleans){
-            if(bool.getString("key") === "flipped" && bool.getContent() === "True"){
-                isFlipped = true;
+        //反転(F) ペラのみ.
+        if(id == 26 || id == 55){
+            let booleans = block.getChild("Data").getChildren("Boolean");
+            for(let bool of booleans){
+                if(bool.getString("key") === "flipped" && bool.getContent() === "True"){
+                    scale(1,-1,1);
+                    break;
+                }
             }
         }
-        if(isFlipped && (id == 26 || id == 55)){//ペラのみ.
-            scale(1,-1,1);
-        }
+
 
         //二点を結ぶブレース等.
         let vec = block.getChild("Data").getChildren("Vector3");
-        let isBrace = false;
+        let braceElement = 0;
         let startPos = createVector(0,0,0);
         let startRot = createVector(0,0,0);
         let endPos = createVector(0,0,0);
         let endRot = createVector(0,0,0);
         for(let v of vec){
             if(v.getString("key") === "start-position"){
+                braceElement += 1;
                 startPos = createVector(Number(v.getChild("X").getContent()),
                                         Number(v.getChild("Y").getContent()),
                                         Number(v.getChild("Z").getContent()));
             }
             if(v.getString("key") === "start-rotation"){
+                braceElement += 1;
                 startRot = createVector(Number(v.getChild("X").getContent()),
                                         Number(v.getChild("Y").getContent()),
                                         Number(v.getChild("Z").getContent()));
             }
             if(v.getString("key") === "end-position"){
-                isBrace = true;
+                braceElement += 1;
                 endPos = createVector(Number(v.getChild("X").getContent()),
                                         Number(v.getChild("Y").getContent()),
                                         Number(v.getChild("Z").getContent()));
             }
             if(v.getString("key") === "end-rotation"){
+                braceElement += 1;
                 endRot = createVector(Number(v.getChild("X").getContent()),
                                         Number(v.getChild("Y").getContent()),
                                         Number(v.getChild("Z").getContent()));
             }
         }
-        let braceLength = p5.Vector.sub(startPos,endPos).mag();
-
+        
         scale(scl.getNum("x"),
             scl.getNum("y"),
             scl.getNum("z"));
 
-
-
-        if(isBrace){//二点を結ぶブレース等.
-
+        if(braceElement == 4){//二点を結ぶブレース等.
+            let braceLength = p5.Vector.sub(startPos,endPos).mag();
             push();
             translate(p5.Vector.add(endPos,startPos).div(2));
             rotateToVector(p5.Vector.sub(endPos,startPos));
@@ -627,6 +637,9 @@ class Surface{
     }
 
     buildSurface(){//ノードからメッシュを作成.
+        if(this.corns == null || this.mids == null){
+            return null;
+        }
         let p00 = this.corns[0];
         let p10 = this.corns[1];
         let p01 = this.corns[2];
@@ -790,7 +803,12 @@ function searchNodes(block,blocks){//ノードを探す.
     for(let str of strings){
         if(str.getString("key") === "edges"){
             edges = str.getContent().split("|");
+            break;
         }
+    }
+
+    if(edges.length == 0){
+        return {corns:null,mids:null};
     }
 
     for(let nBlock of blocks){
@@ -812,6 +830,10 @@ function searchNodes(block,blocks){//ノードを探す.
                 }
             }
         }
+    }
+
+    if(edges.length != starts.length){
+        return {corns:null,mids:null};
     }
 
     let fixed = fixLoop(starts,ends);
@@ -980,8 +1002,6 @@ function rotateYXZ(rot){
     rotateX(rot.x);
     rotateZ(rot.z);
 }
-
-
 
 function lookAt(n, u) {
   // n: forward（向きたい方向）
