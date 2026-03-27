@@ -25,6 +25,9 @@ let middleDistMeter;
 
 let endDistMeter;
 
+let glassSurface;
+let colorSurface;
+
 let surfaces = [];
 
 let machineCost = 0;
@@ -101,6 +104,9 @@ function preload(){
     middleDistMeter = loadModel('assets/75m.obj',false);
 
     endDistMeter = loadModel('assets/75_2.obj',false);
+
+    glassSurface = loadImage('assets/73_2.png');
+    colorSurface = loadImage('assets/73_c.png');
 }
 
 function setup(){
@@ -322,8 +328,33 @@ function loadMachine(bsg){
                 if(surface.guid == guid){
                     found = true;
                     if(surface.surfaceModel != null){
-                        texture(textures[73]);
+                        let inte = block.getChild("Data").getChildren("Integer");
+                        for(let i of inte){
+                            if(i.getString("key") === "bmt-surfMat"){
+                            if(Number(i.getContent()) == 2){
+                                texture(glassSurface);
+                            }else{
+                                let bool = block.getChild("Data").getChildren("Boolean");
+                                for(let b of bool){
+                                    if(b.getString("key") === "bmt-painted"){
+                                        if(b.getContent() === "True"){
+                                            let c = block.getChild("Data").getChild("Color");
+                                            tint(Number(c.getChild("R").getContent())*255,
+                                                Number(c.getChild("G").getContent())*255,
+                                                Number(c.getChild("B").getContent())*255);
+                                            texture(colorSurface);
+                                        }else{
+                                            texture(textures[73]);
+                                        }
+                                    break;
+                                    }
+                                }
+                            }
+                            break;
+                            }
+                        }
                         model(surface.surfaceModel);
+                        tint(255,255);
                     }
                     break;
                 }
