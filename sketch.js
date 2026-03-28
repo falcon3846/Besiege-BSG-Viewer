@@ -48,6 +48,8 @@ let prevTouchCount = 0;
 
 let showPinCam = true;
 
+let showBuildZone = true;
+
 let loadedFiles = 0;
 let blockNum = 90;
 
@@ -131,22 +133,30 @@ function setup(){
     textSize(15);
     textureMode(NORMAL);
     textAlign(CENTER,CENTER);
-    let input = createFileInput(handleFile);
-    input.position(10, 10).attribute("accept", ".bsg");
+    let inputButton = createFileInput(handleFile);
+    inputButton.position(10, 10).attribute("accept", ".bsg");
 
-    let btn = createButton("Reset Camera");
-    btn.position(10, 50);
-    btn.mousePressed(resetCamera);
+    let resetButton = createButton("Reset Camera");
+    resetButton.position(10, 50);
+    resetButton.mousePressed(resetCamera);
 
-    let btnPinCam = createButton("pin,camera show/hide");
-    btnPinCam.position(10, 80);
-    btnPinCam.mousePressed(pinCamToggle);
+    let pinCamButton = createButton("pin,camera show/hide");
+    pinCamButton.position(10, 80);
+    pinCamButton.mousePressed(pinCamToggle);
+
+    let buildZoneButton = createButton("build zone show/hide");
+    buildZoneButton.position(10, 110);
+    buildZoneButton.mousePressed(buildZoneToggle);
 
     document.oncontextmenu = () => false;
 }
 
 function pinCamToggle(){
     showPinCam = !showPinCam;
+}
+
+function buildZoneToggle(){
+    showBuildZone = !showBuildZone;
 }
 
 function windowResized(){
@@ -158,6 +168,31 @@ function draw(){
     perspective(PI/3, width/height, 0.001, 10000);
 
     updateCamera();
+
+    if(showBuildZone){//ビルドゾーン
+        push();
+        rotateZ(Math.PI);
+        scale(blockScale);
+
+        stroke(200,50,50);
+        strokeWeight(0.5);
+        line(-9,0,-9,9,0,-9);
+
+        stroke(50,200,50);
+        strokeWeight(0.5);
+        line(-9,0,-9,-9,10.144,-9);
+
+        stroke(50,50,200);
+        strokeWeight(0.5);
+        line(-9,0,-9,-9,0,9);
+
+        translate(0,5.072,0);
+        stroke(50);
+        strokeWeight(0.1);
+        noFill();
+        box(18,10.144,18);
+        pop();
+    }
 
     if(machineLoaded){
         try {
@@ -171,7 +206,7 @@ function draw(){
 
     push();
     resetMatrix();
-    translate(75-width/2,120-height/2);
+    translate(75-width/2,150-height/2);
     camera(0, 0, (height/2) / tan(PI/6), 0, 0, 0, 0, 1, 0);
     fill(0);
     text("総ブロック数: " + machineCost,0, 0);
