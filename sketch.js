@@ -233,6 +233,7 @@ function touchMoved(){
     rotY -= dx * 0.01;   
     rotX -= dy * 0.01;
 
+    rotX = constrain(rotX, -PI/2 + 0.01, PI/2 - 0.01);
   }
 
   if(touches.length === 2 && prevTouches.length === 2){
