@@ -44,6 +44,7 @@ let distance = 15*blockScale;
 let center = {x:0, y:-5.05*blockScale, z:0};
 
 let prevTouches = [];
+let prevTouchCount = 0;
 
 let showPinCam = true;
 
@@ -190,6 +191,7 @@ function updateCamera(){
   camera(x, y, z, center.x, center.y, center.z, 0, 1, 0);
 }
 
+// マウス操作
 function mouseDragged(){
 
   if(mouseButton === LEFT){
@@ -205,26 +207,52 @@ function mouseDragged(){
 }
 
 function mouseWheel(e){
-  distance += e.delta*0.3;
+  distance += e.delta * 0.3;
   distance = max(50, distance);
 }
 
-
+// パン
 function panCamera(dx, dy){
 
   let panSpeed = distance * 0.001;
 
-  let rightX = cos(rotY);
-  let rightZ = -sin(rotY);
+  // カメラ方向
+  let forward = createVector(
+    sin(rotY) * cos(rotX),
+    sin(rotX),
+    cos(rotY) * cos(rotX)
+  );
 
-  center.x -= dx * panSpeed * rightX;
-  center.z -= dx * panSpeed * rightZ;
+  let worldUp = createVector(0, 1, 0);
 
-  center.y -= dy * panSpeed;
+  // right, up 計算
+  let right = p5.Vector.cross(forward, worldUp).normalize();
+  let up = p5.Vector.cross(right, forward).normalize();
+
+  center.x += (dx * panSpeed) * right.x;
+  center.y += (dx * panSpeed) * right.y;
+  center.z += (dx * panSpeed) * right.z;
+
+  center.x += (-dy * panSpeed) * up.x;
+  center.y += (-dy * panSpeed) * up.y;
+  center.z += (-dy * panSpeed) * up.z;
+}
+
+// タッチ操作
+function touchStarted(){
+  prevTouches = touches.map(t=>({x:t.x,y:t.y}));
+  prevTouchCount = touches.length;
 }
 
 function touchMoved(){
 
+  if(touches.length !== prevTouchCount){
+    prevTouches = touches.map(t=>({x:t.x,y:t.y}));
+    prevTouchCount = touches.length;
+    return false;
+  }
+
+  // ---- 1本指：回転 ----
   if(touches.length === 1){
 
     let dx = touches[0].x - prevTouches[0].x;
@@ -236,7 +264,8 @@ function touchMoved(){
     rotX = constrain(rotX, -PI/2 + 0.01, PI/2 - 0.01);
   }
 
-  if(touches.length === 2 && prevTouches.length === 2){
+  // ---- 2本指：ズーム + パン ----
+  if(touches.length === 2){
 
     let d1 = dist(
       touches[0].x, touches[0].y,
@@ -248,8 +277,11 @@ function touchMoved(){
       prevTouches[1].x, prevTouches[1].y
     );
 
-    distance += (d0 - d1);
+    // ズーム（弱め）
+    distance += (d0 - d1) * 0.5;
+    distance = max(50, distance);
 
+    // 中点移動 → パン
     let midX = (touches[0].x + touches[1].x)/2;
     let midY = (touches[0].y + touches[1].y)/2;
 
@@ -260,18 +292,16 @@ function touchMoved(){
   }
 
   prevTouches = touches.map(t=>({x:t.x,y:t.y}));
+  prevTouchCount = touches.length;
 
   return false;
 }
 
-function touchStarted(){
-  prevTouches = touches.map(t=>({x:t.x,y:t.y}));
-}
-
+// リセット
 function resetCamera(){
   rotX = -0.4;
   rotY = 0.6;
-  distance = 15*blockScale;
+  distance = 15 * blockScale;
 
   center = {x:0, y:-5.05*blockScale, z:0};
 }
