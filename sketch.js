@@ -348,14 +348,27 @@ function loadMachine(bsg){
                                 for(let b of bool){
                                     if(b.getString("key") === "bmt-painted"){
                                         if(b.getContent() === "True"){
+                                            let single = block.getChild("Data").getChildren("Single");
+                                            let sat = 0;
+                                            let lum = 0;
+                                            for(let s of single){
+                                                if(s.getString("key") === "bmt-sat"){
+                                                sat = Number(s.getContent());
+                                                }
+                                                if(s.getString("key") === "bmt-lum"){
+                                                lum = Number(s.getContent());
+                                                }
+                                            }
                                             let c = block.getChild("Data").getChild("Color");
+                                            let surfaceColor = convertRGB(Number(c.getChild("R").getContent()),
+                                                                            Number(c.getChild("G").getContent()),
+                                                                            Number(c.getChild("B").getContent()),
+                                                                            sat,lum);
                                             shader(colorShader);
                                             colorShader.setUniform("tex", textures[id]);
                                             colorShader.setUniform("maskTex", maskSurface);
                                             colorShader.setUniform("strength", 0.8);
-                                            colorShader.setUniform("color", [Number(c.getChild("R").getContent()),
-                                                                            Number(c.getChild("G").getContent()),
-                                                                            Number(c.getChild("B").getContent())]);
+                                            colorShader.setUniform("color", [surfaceColor.r,surfaceColor.g,surfaceColor.b]);
                                         }else{
                                             texture(textures[73]);
                                         }
@@ -1243,4 +1256,53 @@ function drawCamLine(list) {
     }
 
     noStroke();
+}
+
+function rgbToHsv(r, g, b) {
+  let max = Math.max(r, g, b);
+  let min = Math.min(r, g, b);
+  let d = max - min;
+
+  let h = 0;
+  if (d !== 0) {
+    if (max === r) {
+      h = ((g - b) / d) % 6;
+    } else if (max === g) {
+      h = (b - r) / d + 2;
+    } else {
+      h = (r - g) / d + 4;
+    }
+    h /= 6;
+    if (h < 0) h += 1;
+  }
+
+  let s = max === 0 ? 0 : d / max;
+  let v = max;
+
+  return {h:h, s:s, v:v};
+}
+
+function hsvToRgb(h, s, v) {
+  let i = Math.floor(h * 6);
+  let f = h * 6 - i;
+  let p = v * (1 - s);
+  let q = v * (1 - f * s);
+  let t = v * (1 - (1 - f) * s);
+
+  let mod = i % 6;
+  let r, g, b;
+
+  if (mod === 0) [r, g, b] = [v, t, p];
+  else if (mod === 1) [r, g, b] = [q, v, p];
+  else if (mod === 2) [r, g, b] = [p, v, t];
+  else if (mod === 3) [r, g, b] = [p, q, v];
+  else if (mod === 4) [r, g, b] = [t, p, v];
+  else [r, g, b] = [v, p, q];
+
+  return {r:r, g:g, b:b};
+}
+
+//rbgから色相を抽出しhsvにしrgbとして返す
+function convertRGB(r, g, b, s, v) {
+  return hsvToRgb(rgbToHsv(r, g, b).h, s, v);
 }
