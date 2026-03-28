@@ -6,6 +6,8 @@ let testTex;
 
 let font;
 
+let colorShader;
+
 let machineLoaded = false;
 let blockScale = 10;
 
@@ -26,7 +28,10 @@ let middleDistMeter;
 let endDistMeter;
 
 let glassSurface;
-let colorSurface;
+
+let maskSurface;
+let maskBallon;
+let maskRocket;
 
 let surfaces = [];
 
@@ -47,6 +52,8 @@ let blockNum = 90;
 
 function preload(){
     font = loadFont("NotoSansJP-Regular.ttf");
+
+    colorShader = loadShader("default.vert","changeColor.frag");
    
     testBsg = loadXML("test.bsg", xmlLoaded);
     loadBsg = testBsg;
@@ -106,7 +113,10 @@ function preload(){
     endDistMeter = loadModel('assets/75_2.obj',false);
 
     glassSurface = loadImage('assets/73_2.png');
-    colorSurface = loadImage('assets/73_c.png');
+
+    maskSurface = loadImage('assets/73_c.png');
+    maskBallon = loadImage('assets/74_c.png');
+    maskRocket = loadImage('assets/59_c.png');
 }
 
 function setup(){
@@ -339,10 +349,13 @@ function loadMachine(bsg){
                                     if(b.getString("key") === "bmt-painted"){
                                         if(b.getContent() === "True"){
                                             let c = block.getChild("Data").getChild("Color");
-                                            tint(Number(c.getChild("R").getContent())*255,
-                                                Number(c.getChild("G").getContent())*255,
-                                                Number(c.getChild("B").getContent())*255);
-                                            texture(colorSurface);
+                                            shader(colorShader);
+                                            colorShader.setUniform("tex", textures[id]);
+                                            colorShader.setUniform("maskTex", maskSurface);
+                                            colorShader.setUniform("strength", 0.8);
+                                            colorShader.setUniform("color", [Number(c.getChild("R").getContent()),
+                                                                            Number(c.getChild("G").getContent()),
+                                                                            Number(c.getChild("B").getContent())]);
                                         }else{
                                             texture(textures[73]);
                                         }
@@ -354,7 +367,6 @@ function loadMachine(bsg){
                             }
                         }
                         model(surface.surfaceModel);
-                        tint(255,255);
                     }
                     break;
                 }
@@ -510,7 +522,31 @@ function loadMachine(bsg){
         }else{
             scale(-1,1,1);
 
-            texture(textures[id]);
+            if(id == 59 || id == 74){//色変更
+                let strength = 1;
+                let mask = textures[id];
+                if(id == 59){
+                    strength = 0.8;
+                    mask = maskRocket;
+                }
+                if(id == 74){
+                    strength = 0.4;
+                    mask = maskBallon;
+                }        
+                let c = block.getChild("Data").getChild("Color");
+                shader(colorShader);
+                colorShader.setUniform("tex", textures[id]);
+                colorShader.setUniform("maskTex", mask);
+                colorShader.setUniform("strength", strength);
+                colorShader.setUniform("color", [Number(c.getChild("R").getContent()),
+                                                Number(c.getChild("G").getContent()),
+                                                Number(c.getChild("B").getContent())]);
+                        
+            }else{
+                resetShader();
+                texture(textures[id]);
+            }
+            
 
             let modelObj = objs[id];
 
