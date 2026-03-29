@@ -657,7 +657,8 @@ function loadMachine(bsg){
 
     }
     if(showPinCam){
-        drawingContext.disable(drawingContext.DEPTH_TEST);
+        let gl = this._renderer.GL;
+        gl.clear(gl.DEPTH_BUFFER_BIT); 
         for(let pinCam of pinCams){
             let id = pinCam.getNum("id");
 
@@ -762,8 +763,6 @@ function loadMachine(bsg){
             
             pop();
         }
-        
-        drawingContext.enable(drawingContext.DEPTH_TEST);
     }
 
     drawCamLine(camLines);
