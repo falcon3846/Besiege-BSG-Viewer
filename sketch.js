@@ -174,23 +174,25 @@ function draw(){
         rotateZ(Math.PI);
         scale(blockScale);
 
-        stroke(200,50,50);
-        strokeWeight(0.5);
-        line(-9,0,-9,9,0,-9);
-
-        stroke(50,200,50);
-        strokeWeight(0.5);
-        line(-9,0,-9,-9,10.144,-9);
-
-        stroke(50,50,200);
-        strokeWeight(0.5);
-        line(-9,0,-9,-9,0,9);
-
         translate(0,5.072,0);
         stroke(50);
         strokeWeight(0.1);
         noFill();
         box(18,10.144,18);
+        translate(0,-5.072,0);
+
+        stroke(200,50,50);
+        strokeWeight(0.8);
+        line(-9,0,-9,9,0,-9);
+
+        stroke(50,200,50);
+        strokeWeight(0.8);
+        line(-9,0,-9,-9,10.144,-9);
+
+        stroke(50,50,200);
+        strokeWeight(0.8);
+        line(-9,0,-9,-9,0,9);
+        
         pop();
     }
 
@@ -712,7 +714,12 @@ function loadMachine(bsg){
                 }
                 v.mult(dist);
 
-                v = rotatePitch(v,radians(heit));
+                let pv = rotatePitch(v,radians(heit));
+                if(abs(pv.x) < 1e-5 && abs(pv.z) < 1e-5){
+                    v = rotatePitch(v,radians(heit)*0.999);
+                }else{
+                    v = pv;
+                }
                 v = rotatePy(v,radians(cRot));
 
                 let camRot = lookAt(v,createVector(0,1,0));
