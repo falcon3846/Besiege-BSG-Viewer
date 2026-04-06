@@ -1,3 +1,7 @@
+let blockData;
+let blockDataList;
+let blockDataLoaded = false;
+
 let testBsg;
 let loadBsg;
 
@@ -50,15 +54,19 @@ let showPinCam = true;
 
 let showBuildZone = true;
 
+let showCollider = false;
+
 let loadedFiles = 0;
 let blockNum = 90;
 
 function preload(){
+    blockData = loadXML("blockData.xml",xmlLoaded);
+
     font = loadFont("NotoSansJP-Regular.ttf");
 
     colorShader = loadShader("default.vert","changeColor.frag");
    
-    testBsg = loadXML("test.bsg", xmlLoaded);
+    testBsg = loadXML("test.bsg", bsgLoaded);
     loadBsg = testBsg;
 
     testObj = loadModel('assets/0.obj', false);
@@ -168,6 +176,10 @@ function draw(){
     perspective(PI/3, width/height, 0.001, 10000);
 
     updateCamera();
+
+    if(blockDataLoaded){
+        blockDataList = blockData.getChildren("Block");
+    }
 
     if(showBuildZone){//ビルドゾーン
         push();
@@ -346,12 +358,16 @@ function resetCamera(){
 
 function handleFile(file){
     machineLoaded = false;
-    loadBsg = loadXML(file.data, xmlLoaded);
+    loadBsg = loadXML(file.data, bsgLoaded);
+}
+
+function bsgLoaded(){
+    machineLoaded = true;
+    surfaces = [];
 }
 
 function xmlLoaded(){
-    machineLoaded = true;
-    surfaces = [];
+    blockDataLoaded = true;
 }
 
 function loadMachine(bsg){
@@ -624,7 +640,6 @@ function loadMachine(bsg){
                                                 Number(c.getChild("B").getContent())]);
                         
             }else{
-                resetShader();
                 texture(textures[id]);
             }
             
@@ -649,6 +664,54 @@ function loadMachine(bsg){
             }
 
             model(modelObj);
+            resetShader();
+            if(!blockDataLoaded || !showCollider){
+                pop();
+                continue;
+            }
+            scale(-1,1,1);
+            for(let xmlBlock of blockDataList){
+                if(xmlBlock.getNum("id") == id){
+                    push();
+                    let gameObjs = xmlBlock.getChild("Colliders").getChildren("Object");
+                    for(let gameObj of gameObjs){
+                        push();
+                        let oPos = gameObj.getChild("Position");
+                        let oRot = gameObj.getChild("Rotation");
+                        let oScale = gameObj.getChild("Scale");
+                        translate(oPos.getNum("x"),
+                                    oPos.getNum("y"),
+                                    oPos.getNum("z"));
+
+                        rotateQuaternion(oRot.getNum("x"),
+                                        oRot.getNum("y"),
+                                        oRot.getNum("z"),
+                                        oRot.getNum("w"));
+                        scale(oScale.getNum("x"),
+                                oScale.getNum("y"),
+                                oScale.getNum("z"));
+                        let boxColliders = gameObj.getChildren("BoxCollider");
+                        let sphereColliders = gameObj.getChildren("SphereCollider");
+                        let capsuleColliders = gameObj.getChildren("CapsuleCollider");
+                        for(let collider of boxColliders){
+                            drawBoxCollider(collider);
+                        }
+                        for(let collider of sphereColliders){
+                            drawSphereCollider(collider);
+                        }
+                        for(let collider of capsuleColliders){
+                            drawCapsuleCollider(collider);
+                        }
+                        pop();
+                    }
+                    
+                    pop();
+
+                    break;
+
+
+                }
+            }
             
         }
 
@@ -768,6 +831,77 @@ function loadMachine(bsg){
     drawCamLine(camLines);
 
     pop();
+}
+
+function drawBoxCollider(collider){
+    noStroke();
+    fill(colliderColor(collider));
+    push();
+    let center = collider.getChild("Center");
+    let size = collider.getChild("Size");
+    translate(center.getNum("x"),
+            center.getNum("y"),
+            center.getNum("z"));
+    box(size.getNum("x"),
+        size.getNum("y"),
+        size.getNum("z"));
+    pop();
+}
+function drawSphereCollider(collider){
+    noStroke();
+    fill(colliderColor(collider));
+    push();
+    let center = collider.getChild("Center");
+    let radius = collider.getChild("Radius");
+    translate(center.getNum("x"),
+            center.getNum("y"),
+            center.getNum("z"));
+    sphere(radius.getNum("r"));
+    pop();                        
+}
+function drawCapsuleCollider(collider){
+    noStroke();
+    fill(colliderColor(collider));
+    push();
+    let center = collider.getChild("Center");
+    let radius = collider.getChild("Radius");
+    let heit = collider.getChild("Height");
+    let direction = collider.getChild("Direction");
+    translate(center.getNum("x"),
+            center.getNum("y"),
+            center.getNum("z"));
+    capsule(radius.getNum("r"),heit.getNum("h"),direction.getNum("d"));
+    pop();                        
+}
+function capsule(radius,heit,direction){
+    let nh = heit-radius;
+    if(direction == 0){
+        rotateZ(PI/2);
+    }else if(direction == 2){
+        rotateX(PI/2);
+    }
+    cylinder(radius,nh);
+    translate(0,nh/2,0);
+    sphere(radius);
+    translate(0,-nh,0);
+    sphere(radius);
+}
+function colliderColor(collider){
+    let layer = collider.getNum("layer");
+    let isTrigger = collider.getString("isTrigger");
+    if(layer == 22){
+        return "#c8323290";
+    }else{
+        if(layer == 12 || layer == 14){
+            if(isTrigger === "True"){
+                return "#68c52290";
+            }else{
+                return "#59c5ec90";
+            }
+        }else{
+            return "#bf60bf90";
+        }
+    }
 }
 
 class Surface{
