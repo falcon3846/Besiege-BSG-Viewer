@@ -543,7 +543,7 @@ function loadMachine(bsg){
                     scale(1,-1,1);
                 }
                 if(bool.getString("key") === "bmt-chirality" && bool.getContent() === "True"){
-                    scale(1,-1,1);
+                    scale(-1,1,1);
                 }
             }
         }
@@ -723,7 +723,7 @@ function loadMachine(bsg){
                 scale(-1,1,1);
             }
             resetShader();
-            
+
             drawCollider(id,false,isPreextended,isShort);
 
         }
