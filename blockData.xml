@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Blocks>
    <Block id="0" name="StartingBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -14,7 +14,45 @@
         </Colliders>
    </Block>
    <Block id="1" name="DoubleWoodenBlock">
-        <Colliders>
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.6443938" y="0.6443938" z="0.6443938" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.35"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="2" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.35"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.95" y="0.95" z="1.01" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="14" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.95" y="0.95" z="1.01" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="short">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -45,7 +83,7 @@
         </Colliders>
    </Block>
    <Block id="2" name="Wheel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -124,7 +162,7 @@
         </Colliders>
    </Block>
    <Block id="3" name="MetalBlade">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="1.095285" />
                <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
@@ -146,7 +184,7 @@
         </Colliders>
    </Block>
    <Block id="4" name="Decoupler">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0.7071058" y="0" z="0" w="0.7071078"/>
@@ -168,7 +206,7 @@
         </Colliders>
    </Block>
    <Block id="5" name="Hinge">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -199,7 +237,7 @@
         </Colliders>
    </Block>
    <Block id="6" name="MetalBall">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -232,8 +270,56 @@
            </Object>
         </Colliders>
    </Block>
+   <Block id="7" name="Brace">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.4" y="0.4" z="0.4" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="end">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.4" y="0.4" z="0.4" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="9" name="Spring">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.5" y="0.5" z="0.5" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="end">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.5" y="0.5" z="0.5" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
    <Block id="10" name="WoodenPanel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -255,7 +341,7 @@
         </Colliders>
    </Block>
    <Block id="11" name="Cannon">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -279,7 +365,7 @@
         </Colliders>
    </Block>
    <Block id="12" name="ScalingBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -310,7 +396,7 @@
         </Colliders>
    </Block>
    <Block id="13" name="SteeringBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="3.551058E-07" z="0.5978928" />
                <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
@@ -332,7 +418,7 @@
         </Colliders>
    </Block>
    <Block id="14" name="FlyingBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -354,7 +440,7 @@
         </Colliders>
    </Block>
    <Block id="15" name="SingleWoodenBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -385,7 +471,7 @@
         </Colliders>
    </Block>
    <Block id="16" name="Suspension">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -407,7 +493,7 @@
         </Colliders>
    </Block>
    <Block id="17" name="CircularSaw">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="-2.781418E-07" z="5.85894E-21" w="-1"/>
@@ -473,16 +559,7 @@
         </Colliders>
    </Block>
    <Block id="18" name="Piston">
-        <Colliders>
-           <Object>
-               <Position x="0" y="0" z="0" />
-               <Rotation x="0" y="0" z="0" w="1"/>
-               <Scale x="1" y="1" z="1" />
-               <BoxCollider layer="0" isTrigger="False">
-                   <Center x="0" y="0" z="-0.35" />
-                   <Size x="0.85" y="0.85" z="0.6" />
-               </BoxCollider>
-           </Object>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -502,9 +579,29 @@
                </BoxCollider>
            </Object>
         </Colliders>
+        <Colliders type="extended">
+           <Object>
+               <Position x="0" y="0" z="-1" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.6443938" y="0.6443938" z="0.6443938" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.95" y="0.95" z="0.95" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
    </Block>
    <Block id="19" name="Swivel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -535,7 +632,7 @@
         </Colliders>
    </Block>
    <Block id="20" name="Spike">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.701026" />
                <Rotation x="0.707106" y="0" z="0" w="0.7071076"/>
@@ -559,7 +656,7 @@
         </Colliders>
    </Block>
    <Block id="21" name="Flamethrower">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -581,7 +678,7 @@
         </Colliders>
    </Block>
    <Block id="22" name="SpinningBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -603,7 +700,7 @@
         </Colliders>
    </Block>
    <Block id="23" name="Bomb">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -616,7 +713,7 @@
         </Colliders>
    </Block>
    <Block id="24" name="ArmorPlateSmall">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -638,7 +735,7 @@
         </Colliders>
    </Block>
    <Block id="25" name="Wing">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="-0.03579378" y="0" z="0" />
                <Rotation x="0" y="0.7071069" z="0" w="0.7071068"/>
@@ -660,7 +757,7 @@
         </Colliders>
    </Block>
    <Block id="26" name="Propeller">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="1.024219" />
                <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
@@ -682,7 +779,7 @@
         </Colliders>
    </Block>
    <Block id="27" name="Grabber">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0.7071058" y="0" z="0" w="0.7071078"/>
@@ -722,7 +819,7 @@
         </Colliders>
    </Block>
    <Block id="28" name="SteeringHinge">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="-1.993702E-13" y="2.28053E-06" z="0.5" />
                <Rotation x="0.7071069" y="0" z="0" w="0.7071067"/>
@@ -753,7 +850,7 @@
         </Colliders>
    </Block>
    <Block id="29" name="ArmorPlateRound">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.3464134" />
                <Rotation x="0.6532815" y="0.2705981" z="0.2705981" w="0.6532815"/>
@@ -784,7 +881,7 @@
         </Colliders>
    </Block>
    <Block id="30" name="BombHolder">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0.7069895" y="0" z="0" w="0.707224"/>
@@ -804,108 +901,108 @@
                </SphereCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.069124" z="0.5501823" />
+               <Position x="0" y="0.7135196" z="1.214749" />
                <Rotation x="-0.304712" y="0" z="0" w="0.9524446"/>
-               <Scale x="0.4007571" y="0.2884341" z="2.207599" />
+               <Scale x="0.2674602" y="0.1924973" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.722441" z="1.863931" />
+               <Position x="0" y="1.149535" z="2.091528" />
                <Rotation x="-0.0883173" y="0" z="0" w="0.9960924"/>
-               <Scale x="0.400757" y="0.288434" z="1.011576" />
+               <Scale x="0.2674601" y="0.1924971" z="0.6751126" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="1.017644" y="1.069124" z="1.295236" />
+               <Position x="0.6791626" y="0.7135201" z="1.711989" />
                <Rotation x="0.2705977" y="0.6532816" z="-0.2705977" w="0.6532816"/>
-               <Scale x="0.400757" y="0.288434" z="2.207599" />
+               <Scale x="0.2674601" y="0.1924972" z="1.473323" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="0.76" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.069124" z="0.5501823" />
-               <Rotation x="-0.304712" y="0" z="0" w="0.9524446"/>
-               <Scale x="0.4007571" y="0.2884341" z="2.207599" />
+               <Position x="0.7135196" y="1.430511E-06" z="1.214749" />
+               <Rotation x="-0.2154642" y="0.2154637" z="-0.6734793" w="0.6734807"/>
+               <Scale x="0.2674604" y="0.1924974" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.722441" z="1.863931" />
-               <Rotation x="-0.0883173" y="0" z="0" w="0.9960924"/>
-               <Scale x="0.400757" y="0.288434" z="1.011576" />
+               <Position x="1.149535" y="2.384186E-06" z="2.091528" />
+               <Rotation x="-0.06244983" y="0.06244969" z="-0.704343" w="0.7043445"/>
+               <Scale x="0.2674602" y="0.1924973" z="0.6751126" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="1.017644" y="1.069124" z="1.295236" />
-               <Rotation x="0.2705977" y="0.6532816" z="-0.2705977" w="0.6532816"/>
-               <Scale x="0.400757" y="0.288434" z="2.207599" />
+               <Position x="0.7135214" y="-0.6791611" z="1.711989" />
+               <Rotation x="0.653281" y="0.2705992" z="-0.653281" w="0.2705992"/>
+               <Scale x="0.2674601" y="0.1924972" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="0.76" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.069124" z="0.5501823" />
-               <Rotation x="-0.304712" y="0" z="0" w="0.9524446"/>
-               <Scale x="0.4007571" y="0.2884341" z="2.207599" />
+               <Position x="3.639557E-06" y="-0.7135196" z="1.214749" />
+               <Rotation x="-7.771452E-07" y="0.304712" z="-0.9524446" w="2.429139E-06"/>
+               <Scale x="0.2674604" y="0.1924974" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.722441" z="1.863931" />
-               <Rotation x="-0.0883173" y="0" z="0" w="0.9960924"/>
-               <Scale x="0.400757" y="0.288434" z="1.011576" />
+               <Position x="5.863608E-06" y="-1.149535" z="2.091528" />
+               <Rotation x="-2.252467E-07" y="0.0883173" z="-0.9960924" w="2.540459E-06"/>
+               <Scale x="0.2674603" y="0.1924973" z="0.6751126" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="1.017644" y="1.069124" z="1.295236" />
-               <Rotation x="0.2705977" y="0.6532816" z="-0.2705977" w="0.6532816"/>
-               <Scale x="0.400757" y="0.288434" z="2.207599" />
+               <Position x="-0.679159" y="-0.7135234" z="1.711989" />
+               <Rotation x="0.6532823" y="-0.270596" z="-0.6532823" w="-0.270596"/>
+               <Scale x="0.2674601" y="0.1924972" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="0.76" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.069124" z="0.5501823" />
-               <Rotation x="-0.304712" y="0" z="0" w="0.9524446"/>
-               <Scale x="0.4007571" y="0.2884341" z="2.207599" />
+               <Position x="-0.7135197" y="-5.722046E-06" z="1.214749" />
+               <Rotation x="0.215463" y="0.2154648" z="-0.6734828" w="-0.6734772"/>
+               <Scale x="0.2674604" y="0.1924974" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="0" y="1.722441" z="1.863931" />
-               <Rotation x="-0.0883173" y="0" z="0" w="0.9960924"/>
-               <Scale x="0.400757" y="0.288434" z="1.011576" />
+               <Position x="-1.149536" y="-9.536743E-06" z="2.091528" />
+               <Rotation x="0.0624495" y="0.06245001" z="-0.7043466" w="-0.7043408"/>
+               <Scale x="0.2674603" y="0.1924973" z="0.6751126" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="1.017644" y="1.069124" z="1.295236" />
-               <Rotation x="0.2705977" y="0.6532816" z="-0.2705977" w="0.6532816"/>
-               <Scale x="0.400757" y="0.288434" z="2.207599" />
+               <Position x="-0.7135257" y="0.6791568" z="1.711989" />
+               <Rotation x="0.2706011" y="-0.6532803" z="-0.2706011" w="-0.6532803"/>
+               <Scale x="0.2674602" y="0.1924973" z="1.473324" />
                <BoxCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="0.76" />
@@ -914,7 +1011,7 @@
         </Colliders>
    </Block>
    <Block id="31" name="FlameBall">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -927,7 +1024,7 @@
         </Colliders>
    </Block>
    <Block id="32" name="ArmorPlateLarge">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -949,7 +1046,7 @@
         </Colliders>
    </Block>
    <Block id="33" name="Plow">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -989,7 +1086,7 @@
         </Colliders>
    </Block>
    <Block id="34" name="WingPanel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="-1.192093E-07" y="-2.989335E-07" z="1.465059" />
                <Rotation x="0" y="0.3826835" z="0" w="0.9238796"/>
@@ -1074,7 +1171,7 @@
         </Colliders>
    </Block>
    <Block id="35" name="Ballast">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1096,7 +1193,7 @@
         </Colliders>
    </Block>
    <Block id="36" name="Boulder">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1109,7 +1206,7 @@
         </Colliders>
    </Block>
    <Block id="37" name="HalfPipe">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1158,7 +1255,7 @@
         </Colliders>
    </Block>
    <Block id="38" name="CogMediumUnpowered">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1223,7 +1320,7 @@
         </Colliders>
    </Block>
    <Block id="39" name="CogMediumPowered">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1288,7 +1385,7 @@
         </Colliders>
    </Block>
    <Block id="40" name="WheelUnpowered">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1367,7 +1464,45 @@
         </Colliders>
    </Block>
    <Block id="41" name="WoodenPole">
-        <Colliders>
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.6443938" y="0.6443938" z="0.6443938" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="2" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="14" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.6" y="0.6" z="1" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5000001" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.6" y="0.6" z="1" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="short">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1398,7 +1533,7 @@
         </Colliders>
    </Block>
    <Block id="42" name="Slider">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1418,9 +1553,29 @@
                </BoxCollider>
            </Object>
         </Colliders>
+        <Colliders type="extended">
+           <Object>
+               <Position x="0" y="0" z="-1" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.2577575"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.78" y="0.67" z="0.98" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
    </Block>
    <Block id="43" name="Balloon">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1450,8 +1605,8 @@
            </Object>
            <Object>
                <Position x="0" y="0" z="0" />
-               <Rotation x="0" y="0" z="0" w="1"/>
-               <Scale x="0.395706" y="2" z="0.395706" />
+               <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
+               <Scale x="0.0989265" y="0" z="0.09892656" />
                <BoxCollider layer="23" isTrigger="True">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
@@ -1460,7 +1615,7 @@
         </Colliders>
    </Block>
    <Block id="44" name="BallJoint">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1490,8 +1645,32 @@
            </Object>
         </Colliders>
    </Block>
+   <Block id="45" name="RopeWinch">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="end">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
    <Block id="46" name="LargeWheel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1642,7 +1821,7 @@
         </Colliders>
    </Block>
    <Block id="47" name="Torch">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1664,7 +1843,7 @@
         </Colliders>
    </Block>
    <Block id="48" name="Drill">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="1" y="0" z="0" w="1.293876E-06"/>
@@ -1704,7 +1883,7 @@
         </Colliders>
    </Block>
    <Block id="49" name="GripPad">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1726,15 +1905,11 @@
         </Colliders>
    </Block>
    <Block id="50" name="SmallWheel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
                <Scale x="1" y="1" z="1" />
-               <BoxCollider layer="0" isTrigger="False">
-                   <Center x="0" y="-0.04471934" z="0.6381064" />
-                   <Size x="0.2498203" y="0.6384487" z="1.086567" />
-               </BoxCollider>
                <SphereCollider layer="0" isTrigger="False">
                    <Center x="0" y="0" z="1.09" />
                    <Radius r="0.35"/>
@@ -1749,19 +1924,10 @@
                    <Radius r="0.4"/>
                </SphereCollider>
            </Object>
-           <Object>
-               <Position x="0" y="0.02345207" z="1.242584" />
-               <Rotation x="-0.3826833" y="0" z="0" w="0.9238796"/>
-               <Scale x="0.2953937" y="0.3993443" z="0.2227269" />
-               <BoxCollider layer="0" isTrigger="False">
-                   <Center x="0" y="7.77977E-07" z="-0.432853" />
-                   <Size x="1" y="0.9999997" z="1.86583" />
-               </BoxCollider>
-           </Object>
         </Colliders>
    </Block>
    <Block id="51" name="CogLargeUnpowered">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1896,7 +2062,7 @@
         </Colliders>
    </Block>
    <Block id="52" name="Unused3">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="1.024219" />
                <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
@@ -1927,7 +2093,7 @@
         </Colliders>
    </Block>
    <Block id="53" name="ShrapnelCannon">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1951,7 +2117,7 @@
         </Colliders>
    </Block>
    <Block id="54" name="Grenade">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -1964,7 +2130,7 @@
         </Colliders>
    </Block>
    <Block id="55" name="SmallPropeller">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="1.024219" />
                <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
@@ -1986,7 +2152,7 @@
         </Colliders>
    </Block>
    <Block id="56" name="WaterCannon">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.2527325" />
                <Rotation x="0" y="0.7071078" z="0.7071058" w="0"/>
@@ -2010,11 +2176,11 @@
         </Colliders>
    </Block>
    <Block id="57" name="Pin">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
-               <Scale x="6.44394" y="6.44394" z="6.44394" />
+               <Scale x="5.128878" y="5.128878" z="5.128878" />
                <SphereCollider layer="27" isTrigger="True">
                    <Center x="0" y="0" z="0" />
                    <Radius r="0.45"/>
@@ -2023,7 +2189,7 @@
         </Colliders>
    </Block>
    <Block id="58" name="CameraBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2034,18 +2200,18 @@
                </SphereCollider>
            </Object>
            <Object>
-               <Position x="0" y="0.84" z="0.62" />
-               <Rotation x="0" y="0" z="0" w="1"/>
-               <Scale x="1.649897" y="3.208886" z="4.869337" />
+               <Position x="8.291533E-07" y="1.92977" z="22.24242" />
+               <Rotation x="0" y="1" z="0" w="-4.371139E-08"/>
+               <Scale x="3.790384" y="7.371921" z="11.18655" />
                <BoxCollider layer="27" isTrigger="True">
                    <Center x="0" y="0" z="0" />
                    <Size x="1" y="1" z="1" />
                </BoxCollider>
            </Object>
            <Object>
-               <Position x="-1.591546E-16" y="0.05000011" z="-4.51602E-09" />
-               <Rotation x="0" y="-0.3826835" z="0" w="0.9238796"/>
-               <Scale x="1.06106" y="0.1697133" z="1.06106" />
+               <Position x="1.588187E-22" y="0" z="0.2099384" />
+               <Rotation x="0.6532815" y="-0.2705981" z="-0.2705981" w="0.6532815"/>
+               <Scale x="5.880118" y="0.7125856" z="5.880122" />
                <BoxCollider layer="27" isTrigger="True">
                    <Center x="0" y="0" z="2.384186E-07" />
                    <Size x="1" y="1" z="1.000001" />
@@ -2054,7 +2220,7 @@
         </Colliders>
    </Block>
    <Block id="59" name="Rocket">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0.55" z="0.5" />
                <Rotation x="4.263256E-14" y="1" z="1.192093E-07" w="-1.629207E-07"/>
@@ -2111,19 +2277,10 @@
                    <Size x="0.6" y="0.2" z="0.6" />
                </BoxCollider>
            </Object>
-           <Object>
-               <Position x="0" y="0" z="1000" />
-               <Rotation x="-0.7071068" y="0" z="0" w="0.7071068"/>
-               <Scale x="1" y="1" z="1" />
-               <BoxCollider layer="8" isTrigger="False">
-                   <Center x="0" y="-1" z="0" />
-                   <Size x="100" y="0.1" z="100" />
-               </BoxCollider>
-           </Object>
         </Colliders>
    </Block>
    <Block id="60" name="LargeWheelUnpowered">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2274,7 +2431,7 @@
         </Colliders>
    </Block>
    <Block id="61" name="Crossbow">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2316,7 +2473,7 @@
         </Colliders>
    </Block>
    <Block id="62" name="Vacuum">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2338,15 +2495,6 @@
            </Object>
            <Object>
                <Position x="0" y="0" z="0" />
-               <Rotation x="-1.986124E-07" y="-0.7071068" z="-0.7071068" w="1.986124E-07"/>
-               <Scale x="1" y="1" z="1" />
-               <BoxCollider layer="11" isTrigger="True">
-                   <Center x="0" y="0.5" z="-1.2" />
-                   <Size x="0.21" y="0.21" z="0.15" />
-               </BoxCollider>
-           </Object>
-           <Object>
-               <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
                <Scale x="0.5804715" y="0.5804715" z="0.5804715" />
                <SphereCollider layer="22" isTrigger="True">
@@ -2357,7 +2505,54 @@
         </Colliders>
    </Block>
    <Block id="63" name="Log">
-        <Colliders>
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.6443938" y="0.6443938" z="0.6443938" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.35"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="3" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.35"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.95" y="0.95" z="1" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.95" y="0.95" z="1" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="14" isTrigger="False">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="0.95" y="0.95" z="1" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="short">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2397,7 +2592,7 @@
         </Colliders>
    </Block>
    <Block id="64" name="Magnet">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2410,7 +2605,7 @@
         </Colliders>
    </Block>
    <Block id="65" name="Sensor">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2438,7 +2633,7 @@
         </Colliders>
    </Block>
    <Block id="66" name="Timer">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2460,7 +2655,7 @@
         </Colliders>
    </Block>
    <Block id="67" name="Altimeter">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2482,7 +2677,7 @@
         </Colliders>
    </Block>
    <Block id="68" name="LogicGate">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2504,7 +2699,7 @@
         </Colliders>
    </Block>
    <Block id="69" name="Anglometer">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2526,7 +2721,7 @@
         </Colliders>
    </Block>
    <Block id="70" name="Speedometer">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2552,7 +2747,7 @@
         </Colliders>
    </Block>
    <Block id="74" name="SqrBalloon">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2627,8 +2822,32 @@
            </Object>
         </Colliders>
    </Block>
+   <Block id="75" name="RopeMeasure">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="end">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
    <Block id="76" name="Axle">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2670,7 +2889,7 @@
         </Colliders>
    </Block>
    <Block id="77" name="MetalJaw">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2760,7 +2979,7 @@
         </Colliders>
    </Block>
    <Block id="78" name="Sail">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="-0.05" z="1.5" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2834,7 +3053,7 @@
         </Colliders>
    </Block>
    <Block id="79" name="Rudder">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2856,7 +3075,7 @@
         </Colliders>
    </Block>
    <Block id="80" name="NauticalScrew">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -2988,7 +3207,7 @@
         </Colliders>
    </Block>
    <Block id="81" name="Paddle">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3010,7 +3229,7 @@
         </Colliders>
    </Block>
    <Block id="82" name="Buoyancy">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3058,7 +3277,7 @@
         </Colliders>
    </Block>
    <Block id="83" name="BigBarrel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3143,7 +3362,7 @@
         </Colliders>
    </Block>
    <Block id="84" name="Harpoon">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3153,21 +3372,6 @@
                    <Radius r="0.38"/>
                    <Height h="2.28"/>
                    <Direction d="1"/>
-               </CapsuleCollider>
-           </Object>
-           <Object>
-               <Position x="0" y="-0.749" z="0.576" />
-               <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
-               <Scale x="1" y="1" z="1" />
-               <SphereCollider layer="0" isTrigger="True">
-                   <Center x="0" y="0" z="1.01" />
-                   <Radius r="0.43"/>
-               </SphereCollider>
-               <CapsuleCollider layer="0" isTrigger="False">
-                   <Center x="0" y="0" z="-0.72" />
-                   <Radius r="0.07"/>
-                   <Height h="0.92"/>
-                   <Direction d="2"/>
                </CapsuleCollider>
            </Object>
            <Object>
@@ -3182,7 +3386,7 @@
         </Colliders>
    </Block>
    <Block id="85" name="CornerWoodenBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0.7071068" w="0.7071068"/>
@@ -3289,7 +3493,7 @@
         </Colliders>
    </Block>
    <Block id="86" name="SkateWheel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3322,7 +3526,7 @@
         </Colliders>
    </Block>
    <Block id="87" name="BouncyPad">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3352,7 +3556,7 @@
         </Colliders>
    </Block>
    <Block id="88" name="FlyWheel">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>
@@ -3392,7 +3596,7 @@
         </Colliders>
    </Block>
    <Block id="89" name="DragBlock">
-        <Colliders>
+        <Colliders type="default">
            <Object>
                <Position x="0" y="0" z="0" />
                <Rotation x="0" y="0" z="0" w="1"/>

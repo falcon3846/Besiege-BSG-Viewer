@@ -55,6 +55,7 @@ let showPinCam = true;
 let showBuildZone = true;
 
 let showCollider = false;
+let showMesh = true;
 
 let loadedFiles = 0;
 let blockNum = 90;
@@ -156,6 +157,18 @@ function setup(){
     buildZoneButton.position(10, 110);
     buildZoneButton.mousePressed(buildZoneToggle);
 
+    let meshButton = createButton("mesh");
+    meshButton.position(10, 140);
+    meshButton.mousePressed(meshOn);
+
+    let mixButton = createButton("mix");
+    mixButton.position(60, 140);
+    mixButton.mousePressed(mixOn);
+
+    let colliderButton = createButton("collider");
+    colliderButton.position(98, 140);
+    colliderButton.mousePressed(colliderOn);
+
     document.oncontextmenu = () => false;
 }
 
@@ -165,6 +178,21 @@ function pinCamToggle(){
 
 function buildZoneToggle(){
     showBuildZone = !showBuildZone;
+}
+
+function meshOn(){
+    showMesh = true;
+    showCollider = false;
+}
+
+function mixOn(){
+    showMesh = true;
+    showCollider = true;
+}
+
+function colliderOn(){
+    showMesh = false;
+    showCollider = true; 
 }
 
 function windowResized(){
@@ -220,7 +248,7 @@ function draw(){
 
     push();
     resetMatrix();
-    translate(75-width/2,150-height/2);
+    translate(75-width/2,180-height/2);
     camera(0, 0, (height/2) / tan(PI/6), 0, 0, 0, 0, 1, 0);
     fill(0);
     text("総ブロック数: " + machineCost,0, 0);
@@ -506,12 +534,25 @@ function loadMachine(bsg){
                          rot.getNum("z"),
                          rot.getNum("w"));
 
-        //反転(F) ペラのみ.
-        if(id == 26 || id == 55){
+        //ペラの反転(F)とスクリューの鏡像.
+        if(id == 26 || id == 55 || id == 80){
             let booleans = block.getChild("Data").getChildren("Boolean");
             for(let bool of booleans){
                 if(bool.getString("key") === "flipped" && bool.getContent() === "True"){
                     scale(1,-1,1);
+                }
+                if(bool.getString("key") === "bmt-chirality" && bool.getContent() === "True"){
+                    scale(1,-1,1);
+                }
+            }
+        }
+
+        let isPreextended = false;
+        if(id == 18 || id == 42){
+            let booleans = block.getChild("Data").getChildren("Boolean");
+            for(let bool of booleans){
+                if(bool.getString("key") === "preextended" && bool.getContent() === "True"){
+                    isPreextended = true;
                     break;
                 }
             }
@@ -556,69 +597,7 @@ function loadMachine(bsg){
             scl.getNum("y"),
             scl.getNum("z"));
 
-        if(braceElement == 4){//二点を結ぶブレース等.
-            let braceLength = p5.Vector.sub(startPos,endPos).mag();
-            push();
-            translate(p5.Vector.add(endPos,startPos).div(2));
-            rotateToVector(p5.Vector.sub(endPos,startPos));
-            scale(1,1,braceLength);
-            texture(textures[id]);
-            switch (id) {
-            case 7:
-                model(middleBrace);
-                break;
-            case 9:
-                model(middleSpring);
-                break;
-            case 45:
-                model(middleRope);
-                break;
-            case 75:
-                model(middleDistMeter);
-                break;
-            }
-            pop();
-
-            
-            push();
-            translate(startPos);
-
-            antiRotateQuaternion(rot.getNum("x"),
-                         rot.getNum("y"),
-                         rot.getNum("z"),
-                         rot.getNum("w"));
-            angleMode(DEGREES);
-            rotateYXZ(startRot);
-            angleMode(RADIANS);
-
-            texture(textures[id]);
-            model(objs[id]);
-            pop();
-
-            if(braceLength > 0.0001){
-                push();
-                translate(endPos);
-
-                antiRotateQuaternion(rot.getNum("x"),
-                         rot.getNum("y"),
-                         rot.getNum("z"),
-                         rot.getNum("w"));
-                angleMode(DEGREES);
-                rotateYXZ(endRot);
-                angleMode(RADIANS);
-
-                texture(textures[id]);
-                if(id == 75){
-                    model(endDistMeter);
-                }else{
-                    model(objs[id]);
-                }
-                pop();
-            }
-
-        }else{
-            scale(-1,1,1);
-
+        if(showMesh){
             if(id == 59 || id == 74){//色変更
                 let strength = 1;
                 let mask = textures[id];
@@ -642,77 +621,110 @@ function loadMachine(bsg){
             }else{
                 texture(textures[id]);
             }
-            
+        }
+        
 
+        if(braceElement == 4){//二点を結ぶブレース等.
+            let braceLength = p5.Vector.sub(startPos,endPos).mag();
+            if(showMesh){
+                push();
+                translate(p5.Vector.add(endPos,startPos).div(2));
+                rotateToVector(p5.Vector.sub(endPos,startPos));
+                scale(1,1,braceLength);
+                switch (id) {
+                case 7:
+                    model(middleBrace);
+                    break;
+                case 9:
+                    model(middleSpring);
+                    break;
+                case 45:
+                    model(middleRope);
+                    break;
+                case 75:
+                    model(middleDistMeter);
+                    break;
+                }
+                pop();
+            }
+            
+            push();
+            translate(startPos);
+
+            antiRotateQuaternion(rot.getNum("x"),
+                         rot.getNum("y"),
+                         rot.getNum("z"),
+                         rot.getNum("w"));
+            angleMode(DEGREES);
+            rotateYXZ(startRot);
+            angleMode(RADIANS);
+            if(showMesh){
+                model(objs[id]);
+            }
+            
+            drawCollider(id,false,false,false);
+
+            pop();
+
+            if(braceLength > 0.0001){
+                push();
+                translate(endPos);
+
+                antiRotateQuaternion(rot.getNum("x"),
+                         rot.getNum("y"),
+                         rot.getNum("z"),
+                         rot.getNum("w"));
+                angleMode(DEGREES);
+                rotateYXZ(endRot);
+                angleMode(RADIANS);
+
+                if(showMesh){
+                    if(id == 75){
+                        model(endDistMeter);
+                    }else{
+                        model(objs[id]);
+                    }
+                }
+
+                drawCollider(id,true,false,false);
+                pop();
+            }
+
+        }else{
+            
             let modelObj = objs[id];
 
+            let isShort = false;
             if(id == 1 || id == 41 || id == 63){//短縮.
                 let inte = block.getChild("Data").getChildren("Integer");
                 for(let i of inte){
                     if(i.getString("key") === 'length'){
                         if(id == 1 && Number(i.getContent()) == 1){
                             modelObj = shortenedWood;
+                            isShort = true;
                         }
                         if(id == 41 && Number(i.getContent()) == 1){
                             modelObj = shortenedPole;
+                            isShort = true;
                         }
                         if(id == 63 && Number(i.getContent()) == 2){
                             modelObj = shortenedLog;
+                            isShort = true;
                         }
                     }
                 }
             }
 
-            model(modelObj);
+            if(showMesh){
+                scale(-1,1,1);
+                model(modelObj);
+                scale(-1,1,1);
+            }
+
             resetShader();
-            if(!blockDataLoaded || !showCollider){
-                pop();
-                continue;
-            }
-            scale(-1,1,1);
-            for(let xmlBlock of blockDataList){
-                if(xmlBlock.getNum("id") == id){
-                    push();
-                    let gameObjs = xmlBlock.getChild("Colliders").getChildren("Object");
-                    for(let gameObj of gameObjs){
-                        push();
-                        let oPos = gameObj.getChild("Position");
-                        let oRot = gameObj.getChild("Rotation");
-                        let oScale = gameObj.getChild("Scale");
-                        translate(oPos.getNum("x"),
-                                    oPos.getNum("y"),
-                                    oPos.getNum("z"));
 
-                        rotateQuaternion(oRot.getNum("x"),
-                                        oRot.getNum("y"),
-                                        oRot.getNum("z"),
-                                        oRot.getNum("w"));
-                        scale(oScale.getNum("x"),
-                                oScale.getNum("y"),
-                                oScale.getNum("z"));
-                        let boxColliders = gameObj.getChildren("BoxCollider");
-                        let sphereColliders = gameObj.getChildren("SphereCollider");
-                        let capsuleColliders = gameObj.getChildren("CapsuleCollider");
-                        for(let collider of boxColliders){
-                            drawBoxCollider(collider);
-                        }
-                        for(let collider of sphereColliders){
-                            drawSphereCollider(collider);
-                        }
-                        for(let collider of capsuleColliders){
-                            drawCapsuleCollider(collider);
-                        }
-                        pop();
-                    }
-                    
-                    pop();
+            drawCollider(id,false,isPreextended,isShort);
 
-                    break;
-
-
-                }
-            }
-            
         }
 
         pop();
@@ -831,6 +843,66 @@ function loadMachine(bsg){
     drawCamLine(camLines);
 
     pop();
+
+    function drawCollider(id,isEnd,isPreextended,isShort){
+        if(blockDataLoaded && showCollider){
+            for(let xmlBlock of blockDataList){
+                if(xmlBlock.getNum("id") == id){
+                    push();
+                    let colliders = xmlBlock.getChildren("Colliders");
+                    for(let collider of colliders){
+                        if(collider.getString("type") === "default" 
+                            && !(isShort || isPreextended || isEnd)){
+                        }else if(collider.getString("type") === "short" && isShort){
+                        }else if(collider.getString("type") === "extended" && isPreextended){
+                        }else if(collider.getString("type") === "end" && isEnd){
+                        }else{
+                            continue;
+                        }
+                        let gameObjs = collider.getChildren("Object");
+                        for(let gameObj of gameObjs){
+                            push();
+                            let oPos = gameObj.getChild("Position");
+                            let oRot = gameObj.getChild("Rotation");
+                            let oScale = gameObj.getChild("Scale");
+                            translate(oPos.getNum("x"),
+                                        oPos.getNum("y"),
+                                        oPos.getNum("z"));
+
+                            rotateQuaternion(oRot.getNum("x"),
+                                            oRot.getNum("y"),
+                                            oRot.getNum("z"),
+                                            oRot.getNum("w"));
+                            scale(oScale.getNum("x"),
+                                    oScale.getNum("y"),
+                                    oScale.getNum("z"));
+                            let boxColliders = gameObj.getChildren("BoxCollider");
+                            let sphereColliders = gameObj.getChildren("SphereCollider");
+                            let capsuleColliders = gameObj.getChildren("CapsuleCollider");
+                            for(let collider of boxColliders){
+                                drawBoxCollider(collider);
+                            }
+                            for(let collider of sphereColliders){
+                                drawSphereCollider(collider);
+                            }
+                            for(let collider of capsuleColliders){
+                                drawCapsuleCollider(collider);
+                            }
+                            pop();
+                        }
+                    }
+                    
+                    
+                    pop();
+
+                    break;
+
+
+                }
+            }
+        }
+    }
+
 }
 
 function drawBoxCollider(collider){
@@ -874,7 +946,7 @@ function drawCapsuleCollider(collider){
     pop();                        
 }
 function capsule(radius,heit,direction){
-    let nh = heit-radius;
+    let nh = heit-radius*2;
     if(direction == 0){
         rotateZ(PI/2);
     }else if(direction == 2){
