@@ -449,6 +449,7 @@ function loadMachine(bsg){
             for(let surface of surfaces){
                 if(surface.guid == guid){
                     found = true;
+                    resetShader();
                     if(surface.surfaceModel != null){
                         let inte = block.getChild("Data").getChildren("Integer");
                         for(let i of inte){
@@ -598,6 +599,7 @@ function loadMachine(bsg){
             scl.getNum("z"));
 
         if(showMesh){
+            resetShader();
             if(id == 59 || id == 74){//色変更
                 let strength = 1;
                 let mask = textures[id];
@@ -720,9 +722,8 @@ function loadMachine(bsg){
                 model(modelObj);
                 scale(-1,1,1);
             }
-
             resetShader();
-
+            
             drawCollider(id,false,isPreextended,isShort);
 
         }
