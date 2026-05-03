@@ -401,13 +401,94 @@ function xmlLoaded(){
 function loadMachine(bsg){
     machineCost = 0;
     noStroke();
-    let global = bsg.getChild("Global");
-    let globalPos = global.getChild("Position");
-    let globalRot = global.getChild("Rotation");
-
     let camLines = [];
 
     push();
+    
+    machineTransform(bsg);
+
+    let blocks = bsg.getChild("Blocks").getChildren("Block");
+    let pinCams = [];
+    for(let block of blocks){
+        
+        machineCost += 1;
+
+        assignBlock(block,blocks,pinCams);
+        
+    }
+
+    if(showPinCam){
+        loadPinCams(pinCams,camLines);
+        drawCamLine(camLines);
+    }
+
+    pop();
+
+}
+
+function drawCollider(id,isEnd,isPreextended,isShort){
+    if(blockDataLoaded && showCollider){
+        for(let xmlBlock of blockDataList){
+            if(xmlBlock.getNum("id") == id){
+                push();
+                let colliders = xmlBlock.getChildren("Colliders");
+                for(let collider of colliders){
+                    if(collider.getString("type") === "default" 
+                        && !(isShort || isPreextended || isEnd)){
+                    }else if(collider.getString("type") === "short" && isShort){
+                    }else if(collider.getString("type") === "extended" && isPreextended){
+                    }else if(collider.getString("type") === "end" && isEnd){
+                    }else{
+                        continue;
+                    }
+                    let gameObjs = collider.getChildren("Object");
+                    for(let gameObj of gameObjs){
+                        push();
+                        let oPos = gameObj.getChild("Position");
+                        let oRot = gameObj.getChild("Rotation");
+                        let oScale = gameObj.getChild("Scale");
+                        translate(oPos.getNum("x"),
+                                    oPos.getNum("y"),
+                                    oPos.getNum("z"));
+
+                        rotateQuaternion(oRot.getNum("x"),
+                                        oRot.getNum("y"),
+                                        oRot.getNum("z"),
+                                        oRot.getNum("w"));
+                        scale(oScale.getNum("x"),
+                                oScale.getNum("y"),
+                                oScale.getNum("z"));
+                        let boxColliders = gameObj.getChildren("BoxCollider");
+                        let sphereColliders = gameObj.getChildren("SphereCollider");
+                        let capsuleColliders = gameObj.getChildren("CapsuleCollider");
+                        for(let collider of boxColliders){
+                            drawBoxCollider(collider);
+                        }
+                        for(let collider of sphereColliders){
+                            drawSphereCollider(collider);
+                        }
+                        for(let collider of capsuleColliders){
+                            drawCapsuleCollider(collider);
+                        }
+                        pop();
+                    }
+                }
+                
+                
+                pop();
+
+                break;
+
+
+            }
+        }
+    }
+}
+
+function machineTransform(bsg){
+    let global = bsg.getChild("Global");
+    let globalPos = global.getChild("Position");
+    let globalRot = global.getChild("Rotation");
 
     rotateZ(Math.PI);
     scale(blockScale);
@@ -420,111 +501,12 @@ function loadMachine(bsg){
                      globalRot.getNum("y"),
                      globalRot.getNum("z"),
                      globalRot.getNum("w"));
+}
 
-
-    let blocks = bsg.getChild("Blocks").getChildren("Block");
-    let pinCams = [];
-    for(let block of blocks){
-        let id = block.getNum("id");
-
-        machineCost += 1;
-
-        if(block.hasAttribute("modId")){//mod
-            if(block.hasAttribute("fallback")){
-                id = block.getNum("fallback");
-            }else{
-                continue;
-            }
-        }
-
-        if(id >= blockNum){
-
-        }else if(id == 73){ //サフェ.
-            let scl = block.getChild("Transform").getChild("Scale");
-            let surfaceScale = createVector(scl.getNum("x"),
-                                            scl.getNum("y"),
-                                            scl.getNum("z"));
-            let guid = block.getString("guid");
-            let found = false;
-            for(let surface of surfaces){
-                if(surface.guid == guid){
-                    found = true;
-                    resetShader();
-                    if(surface.surfaceModel != null){
-                        let inte = block.getChild("Data").getChildren("Integer");
-                        for(let i of inte){
-                            if(i.getString("key") === "bmt-surfMat"){
-                            if(Number(i.getContent()) == 2){
-                                texture(glassSurface);
-                            }else{
-                                let bool = block.getChild("Data").getChildren("Boolean");
-                                for(let b of bool){
-                                    if(b.getString("key") === "bmt-painted"){
-                                        if(b.getContent() === "True"){
-                                            let single = block.getChild("Data").getChildren("Single");
-                                            let sat = 0;
-                                            let lum = 0;
-                                            for(let s of single){
-                                                if(s.getString("key") === "bmt-sat"){
-                                                sat = Number(s.getContent());
-                                                }
-                                                if(s.getString("key") === "bmt-lum"){
-                                                lum = Number(s.getContent());
-                                                }
-                                            }
-                                            let c = block.getChild("Data").getChild("Color");
-                                            let surfaceColor = convertRGB(Number(c.getChild("R").getContent()),
-                                                                            Number(c.getChild("G").getContent()),
-                                                                            Number(c.getChild("B").getContent()),
-                                                                            sat,lum);
-                                            shader(colorShader);
-                                            colorShader.setUniform("tex", textures[id]);
-                                            colorShader.setUniform("maskTex", maskSurface);
-                                            colorShader.setUniform("strength", 0.8);
-                                            colorShader.setUniform("color", [surfaceColor.r,surfaceColor.g,surfaceColor.b]);
-                                        }else{
-                                            texture(textures[73]);
-                                        }
-                                    break;
-                                    }
-                                }
-                            }
-                            break;
-                            }
-                        }
-                        model(surface.surfaceModel);
-                    }
-                    break;
-                }
-            }
-
-            if(!found){
-                let single = block.getChild("Data").getChildren("Single");
-                let thickness = 0.08;
-                for(let s of single){
-                    if(s.getString("key") === "bmt-thickness"){
-                    thickness = Number(s.getContent());
-                    break;
-                    }
-                }
-
-                let nodes = searchNodes(block,blocks);
-                let surface = new Surface(guid,nodes.corns,nodes.mids,thickness,surfaceScale);
-                surface.buildSurface();
-                surfaces.push(surface);
-            }
-
-        }else if(id == 71 || id == 72){//サフェのノード.
-            machineCost -= 1;
-        }else if(id == 57 || id == 58){//ピン、カメラ.
-            pinCams.push(block);
-        }else{
-
+function blockTransform(block){
         let pos = block.getChild("Transform").getChild("Position");
         let rot = block.getChild("Transform").getChild("Rotation");
         let scl = block.getChild("Transform").getChild("Scale");
-
-        push();
 
         translate(pos.getNum("x"),
                   pos.getNum("y"),
@@ -535,375 +517,433 @@ function loadMachine(bsg){
                          rot.getNum("z"),
                          rot.getNum("w"));
 
-        //ペラの反転(F)とスクリューの鏡像.
-        if(id == 26 || id == 55 || id == 80){
-            let booleans = block.getChild("Data").getChildren("Boolean");
-            for(let bool of booleans){
-                if(bool.getString("key") === "flipped" && bool.getContent() === "True"){
-                    scale(1,-1,1);
-                }
-                if(bool.getString("key") === "bmt-chirality" && bool.getContent() === "True"){
-                    scale(-1,1,1);
-                }
-            }
-        }
-
-        let isPreextended = false;
-        if(id == 18 || id == 42){
-            let booleans = block.getChild("Data").getChildren("Boolean");
-            for(let bool of booleans){
-                if(bool.getString("key") === "preextended" && bool.getContent() === "True"){
-                    isPreextended = true;
-                    break;
-                }
-            }
-        }
-
-
-        //二点を結ぶブレース等.
-        let vec = block.getChild("Data").getChildren("Vector3");
-        let braceElement = 0;
-        let startPos = createVector(0,0,0);
-        let startRot = createVector(0,0,0);
-        let endPos = createVector(0,0,0);
-        let endRot = createVector(0,0,0);
-        for(let v of vec){
-            if(v.getString("key") === "start-position"){
-                braceElement += 1;
-                startPos = createVector(Number(v.getChild("X").getContent()),
-                                        Number(v.getChild("Y").getContent()),
-                                        Number(v.getChild("Z").getContent()));
-            }
-            if(v.getString("key") === "start-rotation"){
-                braceElement += 1;
-                startRot = createVector(Number(v.getChild("X").getContent()),
-                                        Number(v.getChild("Y").getContent()),
-                                        Number(v.getChild("Z").getContent()));
-            }
-            if(v.getString("key") === "end-position"){
-                braceElement += 1;
-                endPos = createVector(Number(v.getChild("X").getContent()),
-                                        Number(v.getChild("Y").getContent()),
-                                        Number(v.getChild("Z").getContent()));
-            }
-            if(v.getString("key") === "end-rotation"){
-                braceElement += 1;
-                endRot = createVector(Number(v.getChild("X").getContent()),
-                                        Number(v.getChild("Y").getContent()),
-                                        Number(v.getChild("Z").getContent()));
-            }
-        }
-        
         scale(scl.getNum("x"),
-            scl.getNum("y"),
-            scl.getNum("z"));
+                scl.getNum("y"),
+                scl.getNum("z"));
+}
 
-        if(showMesh){
-            resetShader();
-            if(id == 59 || id == 74){//色変更
-                let strength = 1;
-                let mask = textures[id];
-                if(id == 59){
-                    strength = 0.8;
-                    mask = maskRocket;
-                }
-                if(id == 74){
-                    strength = 0.4;
-                    mask = maskBallon;
-                }        
-                let c = block.getChild("Data").getChild("Color");
-                shader(colorShader);
-                colorShader.setUniform("tex", textures[id]);
-                colorShader.setUniform("maskTex", mask);
-                colorShader.setUniform("strength", strength);
-                colorShader.setUniform("color", [Number(c.getChild("R").getContent()),
-                                                Number(c.getChild("G").getContent()),
-                                                Number(c.getChild("B").getContent())]);
-                        
-            }else{
-                texture(textures[id]);
-            }
-        }
-        
+function assignBlock(block,blocks,pinCams){
 
-        if(braceElement == 4){//二点を結ぶブレース等.
-            let braceLength = p5.Vector.sub(startPos,endPos).mag();
-            if(showMesh){
-                push();
-                translate(p5.Vector.add(endPos,startPos).div(2));
-                rotateToVector(p5.Vector.sub(endPos,startPos));
-                scale(1,1,braceLength);
-                switch (id) {
-                case 7:
-                    model(middleBrace);
-                    break;
-                case 9:
-                    model(middleSpring);
-                    break;
-                case 45:
-                    model(middleRope);
-                    break;
-                case 75:
-                    model(middleDistMeter);
-                    break;
-                }
-                pop();
-            }
-            
-            push();
-            translate(startPos);
+    let id = block.getNum("id");
 
-            antiRotateQuaternion(rot.getNum("x"),
-                         rot.getNum("y"),
-                         rot.getNum("z"),
-                         rot.getNum("w"));
-            angleMode(DEGREES);
-            rotateYXZ(startRot);
-            angleMode(RADIANS);
-            if(showMesh){
-                model(objs[id]);
-            }
-            
-            drawCollider(id,false,false,false);
-
-            pop();
-
-            if(braceLength > 0.0001){
-                push();
-                translate(endPos);
-
-                antiRotateQuaternion(rot.getNum("x"),
-                         rot.getNum("y"),
-                         rot.getNum("z"),
-                         rot.getNum("w"));
-                angleMode(DEGREES);
-                rotateYXZ(endRot);
-                angleMode(RADIANS);
-
-                if(showMesh){
-                    if(id == 75){
-                        model(endDistMeter);
-                    }else{
-                        model(objs[id]);
-                    }
-                }
-
-                drawCollider(id,true,false,false);
-                pop();
-            }
-
+    if(block.hasAttribute("modId")){//mod
+        if(block.hasAttribute("fallback")){
+            id = block.getNum("fallback");
         }else{
-            
-            let modelObj = objs[id];
+            return;
+        }
+    }
+    if(id >= blockNum){
+        return;
+    }
+    if(id == 73){ //サフェ.
+        loadSurface(id,block,blocks);
+        return;
+    }
+    if(id == 71 || id == 72){//サフェのノード.
+        machineCost -= 1;
+        return;
+    }
+    if(id == 57 || id == 58){//ピン、カメラ.
+        pinCams.push(block);
+        return;
+    }
+    if(id == 7 || id == 9 || id == 45 || id == 75){//ブレース等
+        loadBrace(id,block);
+        return;
+    }
 
-            let isShort = false;
-            if(id == 1 || id == 41 || id == 63){//短縮.
+    loadGeneralBlock(id,block);
+}
+
+
+function loadSurface(id,block,blocks){
+
+    let scl = block.getChild("Transform").getChild("Scale");
+    let surfaceScale = createVector(scl.getNum("x"),
+                                    scl.getNum("y"),
+                                    scl.getNum("z"));
+    let guid = block.getString("guid");
+    let found = false;
+    for(let surface of surfaces){
+        if(surface.guid == guid){
+            found = true;
+            resetShader();
+            if(surface.surfaceModel != null){
                 let inte = block.getChild("Data").getChildren("Integer");
                 for(let i of inte){
-                    if(i.getString("key") === 'length'){
-                        if(id == 1 && Number(i.getContent()) == 1){
-                            modelObj = shortenedWood;
-                            isShort = true;
-                        }
-                        if(id == 41 && Number(i.getContent()) == 1){
-                            modelObj = shortenedPole;
-                            isShort = true;
-                        }
-                        if(id == 63 && Number(i.getContent()) == 2){
-                            modelObj = shortenedLog;
-                            isShort = true;
+                    if(i.getString("key") === "bmt-surfMat"){
+                    if(Number(i.getContent()) == 2){
+                        texture(glassSurface);
+                    }else{
+                        let bool = block.getChild("Data").getChildren("Boolean");
+                        for(let b of bool){
+                            if(b.getString("key") === "bmt-painted"){
+                                if(b.getContent() === "True"){
+                                    let single = block.getChild("Data").getChildren("Single");
+                                    let sat = 0;
+                                    let lum = 0;
+                                    for(let s of single){
+                                        if(s.getString("key") === "bmt-sat"){
+                                        sat = Number(s.getContent());
+                                        }
+                                        if(s.getString("key") === "bmt-lum"){
+                                        lum = Number(s.getContent());
+                                        }
+                                    }
+                                    let c = block.getChild("Data").getChild("Color");
+                                    let surfaceColor = convertRGB(Number(c.getChild("R").getContent()),
+                                                                    Number(c.getChild("G").getContent()),
+                                                                    Number(c.getChild("B").getContent()),
+                                                                    sat,lum);
+                                    shader(colorShader);
+                                    colorShader.setUniform("tex", textures[id]);
+                                    colorShader.setUniform("maskTex", maskSurface);
+                                    colorShader.setUniform("strength", 0.8);
+                                    colorShader.setUniform("color", [surfaceColor.r,surfaceColor.g,surfaceColor.b]);
+                                }else{
+                                    texture(textures[73]);
+                                }
+                            break;
+                            }
                         }
                     }
+                    break;
+                    }
+                }
+                model(surface.surfaceModel);
+            }
+            break;
+        }
+    }
+
+    if(!found){
+        let single = block.getChild("Data").getChildren("Single");
+        let thickness = 0.08;
+        for(let s of single){
+            if(s.getString("key") === "bmt-thickness"){
+            thickness = Number(s.getContent());
+            break;
+            }
+        }
+
+        let nodes = searchNodes(block,blocks);
+        let surface = new Surface(guid,nodes.corns,nodes.mids,thickness,surfaceScale);
+        surface.buildSurface();
+        surfaces.push(surface);
+    }
+
+}
+
+function loadBrace(id,block){
+    push();
+
+    blockTransform(block);
+
+    let vec = block.getChild("Data").getChildren("Vector3");
+    let startPos = createVector(0,0,0);
+    let startRot = createVector(0,0,0);
+    let endPos = createVector(0,0,0);
+    let endRot = createVector(0,0,0);
+    for(let v of vec){
+        if(v.getString("key") === "start-position"){
+            startPos = createVector(Number(v.getChild("X").getContent()),
+                                    Number(v.getChild("Y").getContent()),
+                                    Number(v.getChild("Z").getContent()));
+        }
+        if(v.getString("key") === "start-rotation"){
+            startRot = createVector(Number(v.getChild("X").getContent()),
+                                    Number(v.getChild("Y").getContent()),
+                                    Number(v.getChild("Z").getContent()));
+        }
+        if(v.getString("key") === "end-position"){
+            endPos = createVector(Number(v.getChild("X").getContent()),
+                                    Number(v.getChild("Y").getContent()),
+                                    Number(v.getChild("Z").getContent()));
+        }
+        if(v.getString("key") === "end-rotation"){
+            endRot = createVector(Number(v.getChild("X").getContent()),
+                                    Number(v.getChild("Y").getContent()),
+                                    Number(v.getChild("Z").getContent()));
+        }
+    }
+
+    if(showMesh){
+        applyMaterial(id,block);
+    }
+
+    let braceLength = p5.Vector.sub(startPos,endPos).mag();
+    let rot = block.getChild("Transform").getChild("Rotation");
+    if(showMesh){
+        push();
+        translate(p5.Vector.add(endPos,startPos).div(2));
+        rotateToVector(p5.Vector.sub(endPos,startPos));
+        scale(1,1,braceLength);
+        switch (id) {
+        case 7:
+            model(middleBrace);
+            break;
+        case 9:
+            model(middleSpring);
+            break;
+        case 45:
+            model(middleRope);
+            break;
+        case 75:
+            model(middleDistMeter);
+            break;
+        }
+        pop();
+    }
+    
+    push();
+    translate(startPos);
+
+    antiRotateQuaternion(rot.getNum("x"),
+                    rot.getNum("y"),
+                    rot.getNum("z"),
+                    rot.getNum("w"));
+    angleMode(DEGREES);
+    rotateYXZ(startRot);
+    angleMode(RADIANS);
+    if(showMesh){
+        model(objs[id]);
+    }
+    
+    drawCollider(id,false,false,false);
+
+    pop();
+
+    if(braceLength > 0.0001){
+        push();
+        translate(endPos);
+
+        antiRotateQuaternion(rot.getNum("x"),
+                    rot.getNum("y"),
+                    rot.getNum("z"),
+                    rot.getNum("w"));
+        angleMode(DEGREES);
+        rotateYXZ(endRot);
+        angleMode(RADIANS);
+
+        if(showMesh){
+            if(id == 75){
+                model(endDistMeter);
+            }else{
+                model(objs[id]);
+            }
+        }
+
+        drawCollider(id,true,false,false);
+        pop();
+    }
+
+    pop();
+}
+
+function loadGeneralBlock(id,block){
+    push();
+
+    blockTransform(block);
+
+    //ペラの反転(F)とスクリューの鏡像.
+    if(id == 26 || id == 55 || id == 80){
+        let booleans = block.getChild("Data").getChildren("Boolean");
+        for(let bool of booleans){
+            if(bool.getString("key") === "flipped" && bool.getContent() === "True"){
+                scale(1,-1,1);
+            }
+            if(bool.getString("key") === "bmt-chirality" && bool.getContent() === "True"){
+                scale(-1,1,1);
+            }
+        }
+    }
+
+    let isPreextended = false;
+    if(id == 18 || id == 42){
+        let booleans = block.getChild("Data").getChildren("Boolean");
+        for(let bool of booleans){
+            if(bool.getString("key") === "preextended" && bool.getContent() === "True"){
+                isPreextended = true;
+                break;
+            }
+        }
+    }
+
+
+    let modelObj = objs[id];
+
+    let isShort = false;
+    if(id == 1 || id == 41 || id == 63){//短縮.
+        let inte = block.getChild("Data").getChildren("Integer");
+        for(let i of inte){
+            if(i.getString("key") === 'length'){
+                if(id == 1 && Number(i.getContent()) == 1){
+                    modelObj = shortenedWood;
+                    isShort = true;
+                }
+                if(id == 41 && Number(i.getContent()) == 1){
+                    modelObj = shortenedPole;
+                    isShort = true;
+                }
+                if(id == 63 && Number(i.getContent()) == 2){
+                    modelObj = shortenedLog;
+                    isShort = true;
                 }
             }
-
-            if(showMesh){
-                scale(-1,1,1);
-                model(modelObj);
-                scale(-1,1,1);
-            }
-            resetShader();
-
-            drawCollider(id,false,isPreextended,isShort);
-
         }
-
-        pop();
-        }
-
     }
-    if(showPinCam){
-        let gl = this._renderer.GL;
-        gl.clear(gl.DEPTH_BUFFER_BIT); 
-        for(let pinCam of pinCams){
-            let id = pinCam.getNum("id");
 
-            let pos = pinCam.getChild("Transform").getChild("Position");
-            let rot = pinCam.getChild("Transform").getChild("Rotation");
-            let scl = pinCam.getChild("Transform").getChild("Scale");
+    if(showMesh){
+        applyMaterial(id,block);
+
+        scale(-1,1,1);
+        model(modelObj);
+        scale(-1,1,1);
+    }
+
+    resetShader();
+
+    drawCollider(id,false,isPreextended,isShort);
+
+    pop();
+}
+
+function loadPinCams(pinCams,camLines){
+    let gl = this._renderer.GL;
+    gl.clear(gl.DEPTH_BUFFER_BIT); 
+    for(let pinCam of pinCams){
+        let id = pinCam.getNum("id");
+
+        let pos = pinCam.getChild("Transform").getChild("Position");
+        let rot = pinCam.getChild("Transform").getChild("Rotation");
+        let scl = pinCam.getChild("Transform").getChild("Scale");
+
+        push();
+
+        translate(pos.getNum("x"),
+                pos.getNum("y"),
+                pos.getNum("z"));
+
+        if(id == 58){
+            let singles = pinCam.getChild("Data").getChildren("Single");
+            let dist = 32;
+            let heit = 18;
+            let cRot = 0;
+            let pitch = 0;
+            let roll = 0;
+            let yaw = 0;
+            for(let s of singles){
+                if(s.getString("key") === "bmt-distance"){
+                    dist = Number(s.getContent());
+                }
+                if(s.getString("key") === "bmt-height"){
+                    heit = Number(s.getContent());
+                }
+                if(s.getString("key") === "bmt-rotation"){
+                    cRot = Number(s.getContent());
+                }
+                if(s.getString("key") === "bmt-pitch"){
+                    pitch = Number(s.getContent());
+                }              
+                if(s.getString("key") === "bmt-roll"){
+                    roll = Number(s.getContent());
+                }             
+                if(s.getString("key") === "bmt-yaw"){
+                    yaw = Number(s.getContent());
+                }             
+            }
 
             push();
 
-            translate(pos.getNum("x"),
-                    pos.getNum("y"),
-                    pos.getNum("z"));
+            let q = {x:rot.getNum("x"),
+                    y:rot.getNum("y"),
+                    z:rot.getNum("z"),
+                    w:rot.getNum("w")};
 
-            if(id == 58){
-                let singles = pinCam.getChild("Data").getChildren("Single");
-                let dist = 32;
-                let heit = 18;
-                let cRot = 0;
-                let pitch = 0;
-                let roll = 0;
-                let yaw = 0;
-                for(let s of singles){
-                    if(s.getString("key") === "bmt-distance"){
-                        dist = Number(s.getContent());
-                    }
-                    if(s.getString("key") === "bmt-height"){
-                        heit = Number(s.getContent());
-                    }
-                    if(s.getString("key") === "bmt-rotation"){
-                        cRot = Number(s.getContent());
-                    }
-                    if(s.getString("key") === "bmt-pitch"){
-                        pitch = Number(s.getContent());
-                    }              
-                    if(s.getString("key") === "bmt-roll"){
-                        roll = Number(s.getContent());
-                    }             
-                    if(s.getString("key") === "bmt-yaw"){
-                        yaw = Number(s.getContent());
-                    }             
-                }
-
-                push();
-
-                let q = {x:rot.getNum("x"),
-                        y:rot.getNum("y"),
-                        z:rot.getNum("z"),
-                        w:rot.getNum("w")};
-
-                let v = rotateVectorByQuaternion(createVector(0,0,1), q);
-                let nv = createVector(v.x,0,v.z);
-                if(p5.Vector.equals(nv,createVector()) || abs(v.angleBetween(nv)) >= PI/4){
-                    v = rotateVectorByQuaternion(createVector(0,1,0), q);
-                }
-                v.mult(dist);
-
-                let pv = rotatePitch(v,radians(heit));
-                if(abs(pv.x) < 1e-5 && abs(pv.z) < 1e-5){
-                    v = rotatePitch(v,radians(heit)*0.999);
-                }else{
-                    v = pv;
-                }
-                v = rotatePy(v,radians(cRot));
-
-                let camRot = lookAt(v,createVector(0,1,0));
-                rotateQuaternion(camRot.x,camRot.y,camRot.z,camRot.w);
-
-                let lv = p5.Vector.sub(v,p5.Vector.normalize(v));
-
-                camLines.push([pos.getNum("x"),pos.getNum("y"),pos.getNum("z"),
-                                pos.getNum("x")+lv.x,pos.getNum("y")+lv.y,pos.getNum("z")+lv.z]);
-
-                translate(0,0,dist);
-                
-                rotateX(radians(pitch));
-                rotateY(radians(-yaw));
-                rotateZ(radians(roll));
-
-                scale(scl.getNum("x"),
-                    scl.getNum("y"),
-                    scl.getNum("z"));
-                scale(-1,1,1);
-                rotateY(PI);
-
-                texture(textures[id]);
-                model(cameraBlock);
-                pop();
+            let v = rotateVectorByQuaternion(createVector(0,0,1), q);
+            let nv = createVector(v.x,0,v.z);
+            if(p5.Vector.equals(nv,createVector()) || abs(v.angleBetween(nv)) >= PI/4){
+                v = rotateVectorByQuaternion(createVector(0,1,0), q);
             }
+            v.mult(dist);
 
-            rotateQuaternion(rot.getNum("x"),
-                            rot.getNum("y"),
-                            rot.getNum("z"),
-                            rot.getNum("w"));
+            let pv = rotatePitch(v,radians(heit));
+            if(abs(pv.x) < 1e-5 && abs(pv.z) < 1e-5){
+                v = rotatePitch(v,radians(heit)*0.999);
+            }else{
+                v = pv;
+            }
+            v = rotatePy(v,radians(cRot));
+
+            let camRot = lookAt(v,createVector(0,1,0));
+            rotateQuaternion(camRot.x,camRot.y,camRot.z,camRot.w);
+
+            let lv = p5.Vector.sub(v,p5.Vector.normalize(v));
+
+            camLines.push([pos.getNum("x"),pos.getNum("y"),pos.getNum("z"),
+                            pos.getNum("x")+lv.x,pos.getNum("y")+lv.y,pos.getNum("z")+lv.z]);
+
+            translate(0,0,dist);
+            
+            rotateX(radians(pitch));
+            rotateY(radians(-yaw));
+            rotateZ(radians(roll));
 
             scale(scl.getNum("x"),
                 scl.getNum("y"),
                 scl.getNum("z"));
             scale(-1,1,1);
+            rotateY(PI);
 
             texture(textures[id]);
-            model(objs[id]);
-            
+            model(cameraBlock);
             pop();
         }
+
+        rotateQuaternion(rot.getNum("x"),
+                        rot.getNum("y"),
+                        rot.getNum("z"),
+                        rot.getNum("w"));
+
+        scale(scl.getNum("x"),
+            scl.getNum("y"),
+            scl.getNum("z"));
+        scale(-1,1,1);
+
+        texture(textures[id]);
+        model(objs[id]);
+        
+        pop();
     }
-
-    drawCamLine(camLines);
-
-    pop();
-
-    function drawCollider(id,isEnd,isPreextended,isShort){
-        if(blockDataLoaded && showCollider){
-            for(let xmlBlock of blockDataList){
-                if(xmlBlock.getNum("id") == id){
-                    push();
-                    let colliders = xmlBlock.getChildren("Colliders");
-                    for(let collider of colliders){
-                        if(collider.getString("type") === "default" 
-                            && !(isShort || isPreextended || isEnd)){
-                        }else if(collider.getString("type") === "short" && isShort){
-                        }else if(collider.getString("type") === "extended" && isPreextended){
-                        }else if(collider.getString("type") === "end" && isEnd){
-                        }else{
-                            continue;
-                        }
-                        let gameObjs = collider.getChildren("Object");
-                        for(let gameObj of gameObjs){
-                            push();
-                            let oPos = gameObj.getChild("Position");
-                            let oRot = gameObj.getChild("Rotation");
-                            let oScale = gameObj.getChild("Scale");
-                            translate(oPos.getNum("x"),
-                                        oPos.getNum("y"),
-                                        oPos.getNum("z"));
-
-                            rotateQuaternion(oRot.getNum("x"),
-                                            oRot.getNum("y"),
-                                            oRot.getNum("z"),
-                                            oRot.getNum("w"));
-                            scale(oScale.getNum("x"),
-                                    oScale.getNum("y"),
-                                    oScale.getNum("z"));
-                            let boxColliders = gameObj.getChildren("BoxCollider");
-                            let sphereColliders = gameObj.getChildren("SphereCollider");
-                            let capsuleColliders = gameObj.getChildren("CapsuleCollider");
-                            for(let collider of boxColliders){
-                                drawBoxCollider(collider);
-                            }
-                            for(let collider of sphereColliders){
-                                drawSphereCollider(collider);
-                            }
-                            for(let collider of capsuleColliders){
-                                drawCapsuleCollider(collider);
-                            }
-                            pop();
-                        }
-                    }
-                    
-                    
-                    pop();
-
-                    break;
+}
 
 
-                }
-            }
+function applyMaterial(id,block){
+    resetShader();
+    if(id == 59 || id == 74){//色変更
+        let strength = 1;
+        let mask = textures[id];
+        if(id == 59){
+            strength = 0.8;
+            mask = maskRocket;
         }
+        if(id == 74){
+            strength = 0.4;
+            mask = maskBallon;
+        }        
+        let c = block.getChild("Data").getChild("Color");
+        shader(colorShader);
+        colorShader.setUniform("tex", textures[id]);
+        colorShader.setUniform("maskTex", mask);
+        colorShader.setUniform("strength", strength);
+        colorShader.setUniform("color", [Number(c.getChild("R").getContent()),
+                                        Number(c.getChild("G").getContent()),
+                                        Number(c.getChild("B").getContent())]);
+                
+    }else{
+        texture(textures[id]);
     }
-
 }
 
 function drawBoxCollider(collider){
