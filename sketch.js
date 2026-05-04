@@ -111,16 +111,16 @@ function preload(){
         }
     }
 
-    shortenedWood = loadModel('assets/1s.obj',false);
-    shortenedPole = loadModel('assets/41s.obj',false);
-    shortenedLog = loadModel('assets/63s.obj',false);
+    shortenedWood = loadModel('assets/1_s.obj',false);
+    shortenedPole = loadModel('assets/41_s.obj',false);
+    shortenedLog = loadModel('assets/63_s.obj',false);
 
     cameraBlock = loadModel("assets/58_2.obj",false);
 
-    middleBrace = loadModel('assets/7m.obj',false);
-    middleSpring = loadModel('assets/9m.obj',false);
-    middleRope = loadModel('assets/45m.obj',false);
-    middleDistMeter = loadModel('assets/75m.obj',false);
+    middleBrace = loadModel('assets/7_m.obj',false);
+    middleSpring = loadModel('assets/9_m.obj',false);
+    middleRope = loadModel('assets/45_m.obj',false);
+    middleDistMeter = loadModel('assets/75_m.obj',false);
 
     endDistMeter = loadModel('assets/75_2.obj',false);
 
