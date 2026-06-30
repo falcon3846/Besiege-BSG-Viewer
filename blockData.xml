@@ -3626,4 +3626,621 @@
            </Object>
         </Colliders>
    </Block>
+   <Block id="90" name="Booster">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.55" />
+                   <Size x="0.8" y="0.8" z="1.09" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0.425" z="0" />
+                   <Size x="0.9" y="0.05" z="0.7" />
+               </BoxCollider>
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="-0.425" z="0" />
+                   <Size x="0.9" y="0.05" z="0.7" />
+               </BoxCollider>
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0.425" y="0" z="0" />
+                   <Size x="0.05" y="0.9" z="0.7" />
+               </BoxCollider>
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="-0.425" y="0" z="0" />
+                   <Size x="0.05" y="0.9" z="0.7" />
+               </BoxCollider>
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.425" />
+                   <Size x="0.9" y="0.9" z="0.15" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="91" name="SteeringThruster">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.3" />
+                   <Size x="0.4" y="0.7" z="0.6" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="92" name="FuelBarrel">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.5" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.5" />
+                   <Size x="0.5" y="0.5" z="0.99" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="1" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.35"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="1" y="1" z="1" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="93" name="FuelGauge">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="15" isTrigger="False">
+                   <Center x="0" y="0" z="0.16" />
+                   <Size x="0.4" y="0.8" z="0.3" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="94" name="GridFin">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="26" isTrigger="False">
+                   <Center x="0" y="0" z="0.875" />
+                   <Size x="0.96" y="0.225" z="1.25" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.644394" y="0.644394" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="95" name="SteeringFin">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="-0.25" z="0.5" />
+                   <Size x="0.18" y="1.75" z="1" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0.7071068" w="0.7071068"/>
+               <Scale x="0.6443942" y="0.6443942" z="0.644394" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="96" name="FuelLine">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+        <Colliders type="end">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="97" name="Parachute">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.25" />
+                   <Size x="0.95" y="0.95" z="0.49" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="98" name="FuelCoupler">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.5" />
+                   <Radius r="0.5"/>
+               </SphereCollider>
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.5" />
+                   <Size x="0.5" y="0.5" z="0.99" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="1" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.25"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Size x="1" y="1" z="1" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="99" name="FuelBarrelBig">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="1.5" />
+                   <Size x="2.35" y="2.35" z="2.5" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.38" />
+                   <Size x="0.9" y="0.9" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0.5" y="0.5" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-0.5" y="0.5" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-0.5" y="-0.5" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0.5" y="-0.5" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="1" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="-0.1" y="0" z="-0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-1" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0.1" y="0" z="-0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="-1" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0.1" z="-0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="1" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="-0.1" z="-0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.38" />
+                   <Size x="0.9" y="0.9" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="1" y="0" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0.38" y="0" z="0" />
+                   <Size x="0" y="1" z="2.2" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-1" y="0" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="-0.38" y="0" z="0" />
+                   <Size x="0" y="1" z="2.2" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="1" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0.38" z="0" />
+                   <Size x="1" y="0" z="2.2" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="-1" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="-0.38" z="0" />
+                   <Size x="1" y="0" z="2.2" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0.5" y="-0.5" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-0.5" y="-0.5" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-0.5" y="0.5" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0.5" y="0.5" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.35" />
+                   <Size x="0.7" y="0.7" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="1" y="0" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="-0.1" y="0" z="0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="-1" y="0" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0.1" y="0" z="0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="-1" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0.1" z="0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="1" z="2.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="-0.1" z="0.36" />
+                   <Size x="0.5" y="0.5" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.2577"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="3" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.2577"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="100" name="SpaceWheel">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="26" isTrigger="False">
+                   <Center x="0" y="0" z="0.825" />
+                   <Radius r="0.983"/>
+               </SphereCollider>
+               <BoxCollider layer="26" isTrigger="False">
+                   <Center x="0" y="0" z="0.825" />
+                   <Size x="0.5" y="0.5" z="1.965" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="1.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.16" />
+                   <Size x="0.9" y="0.9" z="0.4" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="1" y="0" z="0" w="1.293876E-06"/>
+               <Scale x="0.5452565" y="0.5452565" z="0.5452565" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="101" name="ReactionSteeringBlock">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <CapsuleCollider layer="0" isTrigger="False">
+                   <Center x="0" y="0" z="0.3" />
+                   <Radius r="0.25"/>
+                   <Height h="1.2"/>
+                   <Direction d="0"/>
+               </CapsuleCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="0.55" y="0.55" z="0.55" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.4"/>
+               </SphereCollider>
+           </Object>
+        </Colliders>
+   </Block>
+   <Block id="102" name="FuelCannon">
+        <Colliders type="default">
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <CapsuleCollider layer="25" isTrigger="False">
+                   <Center x="0" y="0" z="1.7" />
+                   <Radius r="0.2"/>
+                   <Height h="3.05"/>
+                   <Direction d="2"/>
+               </CapsuleCollider>
+               <BoxCollider layer="25" isTrigger="False">
+                   <Center x="0" y="0" z="0.5" />
+                   <Size x="0.7" y="0.7" z="0.8" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <SphereCollider layer="22" isTrigger="True">
+                   <Center x="0" y="0" z="0" />
+                   <Radius r="0.2575"/>
+               </SphereCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="-0.7071068" y="0" z="0" w="0.7071068"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.45" />
+                   <Size x="0.6" y="0.6" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0.7071068" y="0" z="0" w="0.7071068"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="0.45" />
+                   <Size x="0.6" y="0.6" z="0" />
+               </BoxCollider>
+           </Object>
+           <Object>
+               <Position x="0" y="0" z="0.5" />
+               <Rotation x="0" y="0" z="0" w="1"/>
+               <Scale x="1" y="1" z="1" />
+               <BoxCollider layer="12" isTrigger="True">
+                   <Center x="0" y="0" z="-0.5" />
+                   <Size x="0.6" y="0.6" z="0" />
+               </BoxCollider>
+           </Object>
+        </Colliders>
+   </Block>
 </Blocks>
