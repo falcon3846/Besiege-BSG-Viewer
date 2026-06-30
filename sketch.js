@@ -28,6 +28,7 @@ let middleBrace;
 let middleRope;
 let middleSpring;
 let middleDistMeter;
+let middleFuelLine;
 
 let endDistMeter;
 
@@ -58,7 +59,7 @@ let showCollider = false;
 let showMesh = true;
 
 let loadedFiles = 0;
-let blockNum = 90;
+let blockNum = 103;
 
 function preload(){
     blockData = loadXML("blockData.xml",xmlLoaded);
@@ -121,6 +122,7 @@ function preload(){
     middleSpring = loadModel('assets/9_m.obj',false);
     middleRope = loadModel('assets/45_m.obj',false);
     middleDistMeter = loadModel('assets/75_m.obj',false);
+    middleFuelLine = loadModel('assets/96_m.obj',false);
 
     endDistMeter = loadModel('assets/75_2.obj',false);
 
@@ -548,7 +550,7 @@ function assignBlock(block,blocks,pinCams){
         pinCams.push(block);
         return;
     }
-    if(id == 7 || id == 9 || id == 45 || id == 75){//ブレース等
+    if(id == 7 || id == 9 || id == 45 || id == 75 || id == 96){//ブレース等
         loadBrace(id,block);
         return;
     }
@@ -692,6 +694,9 @@ function loadBrace(id,block){
         case 75:
             model(middleDistMeter);
             break;
+        case 96:
+            model(middleFuelLine);
+            break;            
         }
         pop();
     }
